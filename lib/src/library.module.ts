@@ -14,6 +14,9 @@ import { PortalModule } from '@angular/cdk/portal';
 
 import { OverlayOutletComponent } from './components/overlay-outlet/overlay-outlet.component';
 
+import { ModalDirective } from './directives/model.directive';
+import { TooltipDirective } from './directives/tooltip.directive';
+
 import { LIBRARY_SETTINGS } from './settings';
 
 import * as day_api from 'dayjs';
@@ -23,6 +26,8 @@ const COMPONENTS: Type<any>[] = [
 ];
 
 const DIRECTIVES: Type<any>[] = [
+    ModalDirective,
+    TooltipDirective
 ];
 
 const ENTRY_COMPONENTS: Type<any>[] = [
@@ -34,7 +39,7 @@ const ENTRY_COMPONENTS: Type<any>[] = [
         // Declare Directive
         // ...COMPONENTS
         ...ENTRY_COMPONENTS,
-        // ...DIRECTIVES
+        ...DIRECTIVES
     ],
     imports: [
         CommonModule,
@@ -46,7 +51,7 @@ const ENTRY_COMPONENTS: Type<any>[] = [
     ],
     exports: [
         // Export Directives,
-        // ...DIRECTIVES
+        ...DIRECTIVES
     ]
 })
 class LibraryModule {

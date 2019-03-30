@@ -38,6 +38,7 @@ export class OverlayItem<T = any> {
         if (config) {
             delete this._overlay;
             this._overlay = this.overlay.create(config);
+            this._overlay.backdropClick().subscribe(() => this._close('backdrop_click', null));
         }
         const injector = this._createInjector(this, this.injector);
         this.onClose = new Subject<IOverlayEvent<T>>();

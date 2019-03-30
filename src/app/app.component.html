@@ -1,6 +1,7 @@
 <div class="app">
     <div class="test">
-        <button cdk-overlay-origin (click)="model.show = !model.show" tooltip [content]="template" [(show)]="model.show">Tooltip test</button>
+        <button (click)="model.show = !model.show" tooltip [content]="template" [(show)]="model.show">Tooltip test</button>
+        <button (click)="model.show_modal = !model.show_modal" modal [content]="template" [(show)]="model.show_modal">Modal test</button>
     </div>
     <ng-template #template>
         <div class="box">Test</div>
