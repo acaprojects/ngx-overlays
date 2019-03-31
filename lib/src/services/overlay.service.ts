@@ -107,6 +107,13 @@ export class OverlayService {
         return this._refs[name];
     }
 
+    /**
+     * Open overlay with given name/ID
+     * @param name Overlay identifier
+     * @param details Overlay details/config
+     * @param next Overlay event callback
+     * @param on_close Overlay on close callback
+     */
     public open<T = any>(name: string, details: IOverlayConfig<T>, next?: (e) => void, on_close?: (e) => void, ) {
         if (!details.config) {
             details.config = this.preset();
@@ -127,22 +134,42 @@ export class OverlayService {
         }
     }
 
+    /**
+     * Call close on the overlay with the given name/ID
+     * @param name Overlay identifier
+     */
     public close(name: string) {
         if (this._refs[name]) { this._refs[name].close(null); }
     }
 
+    /**
+     * Remove overlay with given name/ID
+     * @param name Overlay identifier
+     */
     public remove(name: string) {
         if (this._refs[name]) { this._refs[name] = null; }
     }
 
+    /**
+     * Register overlay config preset with given name
+     * @param name
+     * @param preset Angular Overlay Config
+     */
     public registerPreset(name: string, preset: OverlayConfig) {
         this._presets[name] = preset;
     }
 
+    /**
+     * Get preset with given name
+     * @param name
+     */
     public preset(name: string = 'default'): OverlayConfig {
         return this._presets[name] || this._presets['default'];
     }
 
+    /**
+     * Inject notifications outlet onto the root view
+     */
     private loadNotificationsOutlet() {
         if (this.timers.notify) {
             clearTimeout(this.timers.notify);
@@ -164,6 +191,14 @@ export class OverlayService {
         }, 2000);
     }
 
+    /**
+     * Add notification to outlet
+     * @param content Content to render in notification block
+     * @param action action displayed on notification block
+     * @param on_action Callback for action
+     * @param type CSS class to add to notification block
+     * @param delay Auto-close delay in milliseconds
+     */
     public notify(content: OverlayContent, action?: string, on_action?: NotifyCallback, type?: string, delay?: number) {
         let id = null;
         if (this._notify.add) {

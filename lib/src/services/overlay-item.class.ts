@@ -40,6 +40,11 @@ export class OverlayItem<T = any> {
             this._overlay.backdropClick().subscribe(() => this._close('backdrop_click', null));
     }
 
+    /**
+     * Inject overlay contents onto view
+     * @param data Context data
+     * @param config Overlay configuration
+     */
     public open(data: T, config?: OverlayConfig) {
         if (this._overlay) { this._close('reopen', null); }
         if (config) {
@@ -62,24 +67,46 @@ export class OverlayItem<T = any> {
         return this.details.content;
     }
 
+    /**
+     * Update overlay configuration
+     * @param config New overlay config
+     */
     public update(config?: OverlayConfig) {
         this.open(this.details.data, config || this.details.config as OverlayConfig);
     }
 
+    /**
+     * Listen for events on the content
+     * @param next Event callback
+     */
     public listen(next: (data: IOverlayEvent<T>) => void) {
         const sub = this.event.subscribe(next);
         this.subs.push(sub);
         return sub;
     }
 
+    /**
+     * Post new evewnt
+     * @param type Event type
+     * @param data Event context
+     */
     public post(type: IOverlayEventType, data?: T) {
         this.event.next({ type, data });
     }
 
+    /**
+     * Close overlay
+     * @param data Context data
+     */
     public close(data?: T) {
         this._close('close', data);
     }
 
+    /**
+     * Remove overlay from view
+     * @param type Event type
+     * @param data Context data
+     */
     private _close(type: IOverlayEventType, data: T) {
         if (this._overlay) { this._overlay.dispose(); }
         if (type !== 'reopen') {
