@@ -12,6 +12,7 @@ export type OverlayContent = TemplateRef<any> | Type<any> | string;
     encapsulation: ViewEncapsulation.None
 })
 export class OverlayOutletComponent implements OnInit {
+    public klass = 'default';
     public method: 'template' | 'component' | 'text';
     public content: OverlayContent;
     public context;
@@ -25,6 +26,7 @@ export class OverlayOutletComponent implements OnInit {
     public setMethod() {
         this.method = 'component';
         this.content = this.overlay.content;
+        this.klass = this.overlay.details.klass || 'default';
 
         if (typeof this.content === 'string') {
             this.method = 'text';

@@ -1,4 +1,4 @@
-<div class="content">
+<div [class]="'overlay-outlet' + (klass ? ' ' + klass : '')" widget>
     <ng-container [ngSwitch]="method">
         <div *ngSwitchCase="'text'" [innerHTML]="content"></div>
         <ng-container *ngSwitchCase="'template'">

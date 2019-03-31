@@ -85,6 +85,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     margin: 1em auto;
     width: 20em;
     min-height: 250vh;
@@ -93,4 +94,14 @@ body {
     border-radius: 4px;
     box-shadow: 0 1px 3px 0 rgba(#000, .2), 0 1px 1px 0 rgba(#000, .14), 0 2px 1px -1px rgba(#000, .12);
 
+}
+
+button {
+    font-size: 1em;
+    padding: .5em 1em;
+    border-radius: 4px;
+    min-width: 12em;
+    background-color: #1E88E5;
+    color: #fff;
+    margin: .25em;
 }

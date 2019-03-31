@@ -27,7 +27,7 @@ export class OverlayItem<T = any> {
         private service: OverlayService,
         private injector: Injector,
         private overlay: Overlay,
-        private details: IOverlayConfig<T>
+        readonly details: IOverlayConfig<T>
         ) {
             this._overlay = this.overlay.create(this.details.config as OverlayConfig);
             this._overlay.backdropClick().subscribe(() => this._close('backdrop_click', null));

@@ -13,6 +13,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 
 import { OverlayOutletComponent } from './components/overlay-outlet/overlay-outlet.component';
+import { NotificationOutletComponent } from './components/notification-outlet/notification-outlet.component';
 
 import { ModalDirective } from './directives/model.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
@@ -31,7 +32,8 @@ const DIRECTIVES: Type<any>[] = [
 ];
 
 const ENTRY_COMPONENTS: Type<any>[] = [
-    OverlayOutletComponent
+    OverlayOutletComponent,
+    NotificationOutletComponent
 ];
 
 @NgModule({
