@@ -1,5 +1,7 @@
 
-@import '~@angular/cdk/overlay-prebuilt.css';
+@import '~@angular/cdk/_overlay';
+
+@include cdk-overlay();
 
 overlay-outlet .content {
     position: relative;

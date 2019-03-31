@@ -18,7 +18,8 @@
             "polyfills": "src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app/shared"
+                "src/app/shared",
+                "node_modules"
               ]
             },
             "assets": [
