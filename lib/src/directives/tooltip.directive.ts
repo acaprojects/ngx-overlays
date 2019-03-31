@@ -11,18 +11,30 @@ import { LIBRARY_SETTINGS } from '../settings';
     selector: '[tooltip]',
 })
 export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
+    /** ID of the tooltip */
     @Input() public id = `tooltip-${Math.floor(Math.random() * 9999999)}`;
+    /** CSS class to add to the root element of the tooltip */
     @Input() public klass = 'default';
+    /** Whether the tooltip is shown */
     @Input() public show: boolean;
+    /** Contents of the tooltip */
     @Input() public content: OverlayContent;
+    /** Context data to bind to the tooltip's contents */
     @Input() public data: T;
+    /** Prefered position of the tooltip */
     @Input() public position: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+    /** Whether tooltip repositions on scroll */
     @Input() public reposition = true;
+    /** Change emitter for show */
     @Output() public showChange = new EventEmitter<boolean>();
+    /** Event emitter for overlay component */
     @Output() public event = new EventEmitter<IOverlayEvent<T>>();
+    /** Close event emitter for overlay component */
     @Output() public close = new EventEmitter<IOverlayEvent<T>>();
 
+    /** Scroll listeners */
     private listeners: (() => void)[] = [];
+    /** Pre-defined tooltip positions */
     private positions: { [name: string]: ConnectionPositionPair } = {
         bottom: {
             originX: 'center',
@@ -88,6 +100,9 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    /**
+     * Open tooltip with the given parameters
+     */
     public open() {
         this.listenForScroll();
         this.service.open(this.id, {
@@ -103,6 +118,10 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         });
     }
 
+    /**
+     * Get tooltip position relative to the given HTML element
+     * @param origin HTML elment to calculate position
+     */
     private getOverlayPosition(origin: HTMLElement): PositionStrategy {
         const positionStrategy = this.overlay.position()
             .flexibleConnectedTo(origin)
@@ -126,6 +145,9 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    /**
+     * Update tooltip's overlay config
+     */
     private updateConfig(): void {
         this.service.registerPreset(this.id, new OverlayConfig({
             minWidth: 2,
@@ -135,6 +157,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         }));
     }
 
+    /** Listen for scroll events when shown to  */
     private listenForScroll() {
         if (this.show) {
             let el = this.el.nativeElement.parentElement;
@@ -144,11 +167,17 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    /**
+     * Clear any listeners for scrolling
+     */
     private clearListeners() {
         for (const l of this.listeners) { l(); }
         this.listeners = [];
     }
 
+    /**
+     * Update position of tooltip
+     */
     private update() {
         this.updateConfig();
         this.service.update(this.id, this.service.preset(this.id));

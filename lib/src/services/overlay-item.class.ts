@@ -8,18 +8,25 @@ import { OverlayService, IOverlayConfig } from './overlay.service';
 import { PortalInjector } from './portal-injector.class';
 import { OverlayOutletComponent } from '../components/overlay-outlet/overlay-outlet.component';
 
+/** Various types of overlay events */
 type IOverlayEventType = 'close' | 'backdrop_click' | 'event' | 'finish' | 'other' | 'reopen';
 
 export interface IOverlayEvent<T> {
+    /** Type of overlay event */
     type: IOverlayEventType;
+    /** Overlay context */
     data: T;
 }
 
 export class OverlayItem<T = any> {
+    /** Event handler for close events */
     public onClose = new Subject<IOverlayEvent<T>>();
+    /** Event handler for general events */
     public event = new Subject<IOverlayEvent<T>>();
+    /** Reference to Angular overlay */
     private _overlay: OverlayRef;
 
+    /** Subscription handlers for Overlay events */
     public subs: Subscription[] = [];
 
     constructor(

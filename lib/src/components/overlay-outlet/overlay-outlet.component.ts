@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef, Type, ViewEncapsulation } from '@angula
 
 import { OverlayItem } from '../../services/overlay-item.class';
 
+/** Valid content types Template, Component or HTML string */
 export type OverlayContent = TemplateRef<any> | Type<any> | string;
 
 @Component({
@@ -12,9 +13,13 @@ export type OverlayContent = TemplateRef<any> | Type<any> | string;
     encapsulation: ViewEncapsulation.None
 })
 export class OverlayOutletComponent implements OnInit {
+    /** CSS class to add to the root element of the component */
     public klass = 'default';
+    /** Method with which to inject content in to the component */
     public method: 'template' | 'component' | 'text';
+    /** Content to inject into the component */
     public content: OverlayContent;
+    /** Context data to pass to the template/component injected into the component */
     public context;
 
     constructor(private overlay: OverlayItem) { }
@@ -23,6 +28,7 @@ export class OverlayOutletComponent implements OnInit {
         this.setMethod();
     }
 
+    /** Set injection method based of the content passed */
     public setMethod() {
         this.method = 'component';
         this.content = this.overlay.content;

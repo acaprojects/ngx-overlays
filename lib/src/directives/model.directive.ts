@@ -31,6 +31,9 @@ export class ModalDirective<T = any> implements OnChanges {
         }
     }
 
+    /**
+     * Open modal with the given parameters
+     */
     public open() {
         this.service.open(this.id, {
             klass: this.klass,

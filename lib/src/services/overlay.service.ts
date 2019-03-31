@@ -26,11 +26,17 @@ export interface IOverlayConfig<T> {
     providedIn: 'root'
 })
 export class OverlayService {
+    /** Default view container reference */
     private default_vc: ViewContainerRef = null;
+    /** View container reference */
     private _view: ViewContainerRef = null;
+    /** Store for Overlays */
     private _refs: { [name: string]: OverlayItem<any> } = {};
+    /** Store for Overlay Config presets */
     private _presets: { [name: string]: OverlayConfig } = {};
+    /** Event handler for notifications */
     private _notify: { [name: string]: Subject<any> } = {};
+    /** Store for timers */
     private timers: { [name: string]: number } = {};
 
     constructor(private overlay: Overlay, private injector: Injector) {
@@ -38,6 +44,7 @@ export class OverlayService {
         this._notify.add = new Subject<INotification>();
         this._notify.remove = new Subject<string>();
         this._notify.delay = new Subject<number>();
+        // Register default overlay config
         this.registerPreset('default', new OverlayConfig({
             minWidth: 2,
             minHeight: 2,
@@ -46,6 +53,7 @@ export class OverlayService {
             positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
             scrollStrategy: this.overlay.scrollStrategies.noop()
         }));
+        // Register default modal overlay config
         this.registerPreset('modal', new OverlayConfig({
             minWidth: 2,
             minHeight: 2,
