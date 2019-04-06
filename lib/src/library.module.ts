@@ -71,5 +71,5 @@ class LibraryModule {
     }
 }
 
-export const ACA_OVERLAY_BASE_MODULE = LibraryModule;
-export const OverlayBaseModule = LibraryModule;
+export { LibraryModule as ACA_OVERLAY_MODULE };
+export { LibraryModule as OverlayModule };
