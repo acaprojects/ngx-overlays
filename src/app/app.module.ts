@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { OverlayBaseModule } from '../../lib/src/public_api';
+import { OverlayModule } from '../../lib/src/public_api';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import { OverlayBaseModule } from '../../lib/src/public_api';
   ],
   imports: [
     BrowserModule,
-    OverlayBaseModule,
+    OverlayModule,
     BrowserAnimationsModule
   ],
   providers: [],

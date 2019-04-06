@@ -6,6 +6,7 @@ import { OverlayService } from '../services/overlay.service';
 import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.component';
 import { IOverlayEvent } from '../services/overlay-item.class';
 import { LIBRARY_SETTINGS } from '../settings';
+import { BehaviorSubject } from 'rxjs';
 
 @Directive({
     selector: '[tooltip]',
@@ -109,7 +110,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             klass: this.klass,
             content: this.content,
             data: this.data,
-            config: this.id
+            config: this.id,
         }, (e) => this.event.emit(e), (e) => {
             this.show = false;
             this.showChange.emit(false);
@@ -123,11 +124,11 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      * @param origin HTML elment to calculate position
      */
     private getOverlayPosition(origin: HTMLElement): PositionStrategy {
+        const positions = this.getPositions();
         const positionStrategy = this.overlay.position()
             .flexibleConnectedTo(origin)
-            .withPositions(this.getPositions())
+            .withPositions(positions)
             .withPush(false);
-
         return positionStrategy;
     }
 

@@ -1,8 +1,8 @@
 
 import { Injector } from '@angular/core';
-import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy, FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 
 import { OverlayService, IOverlayConfig } from './overlay.service';
 import { PortalInjector } from './portal-injector.class';
@@ -25,6 +25,8 @@ export class OverlayItem<T = any> {
     public event = new Subject<IOverlayEvent<T>>();
     /** Reference to Angular overlay */
     private _overlay: OverlayRef;
+    /** Subject to store the active position of the tooltip */
+    private position_subject = new BehaviorSubject<{ x: string, y: string }>(null);
 
     /** Subscription handlers for Overlay events */
     public subs: Subscription[] = [];
@@ -56,6 +58,20 @@ export class OverlayItem<T = any> {
         this.onClose = new Subject<IOverlayEvent<T>>();
         this.event = new Subject<IOverlayEvent<T>>();
         this._overlay.attach(new ComponentPortal(OverlayOutletComponent, null, injector));
+        if (config.positionStrategy && (config.positionStrategy as FlexibleConnectedPositionStrategy).positionChanges) {
+            const pos = (config.positionStrategy as FlexibleConnectedPositionStrategy);
+            pos.positionChanges.subscribe(
+                (p) => this.position_subject.next({ x: p.connectionPair.originX, y: p.connectionPair.originY })
+            );
+            setTimeout(() => {
+                if ((pos as any)._lastPosition) {
+                    this.position_subject.next({ 
+                        x: (pos as any)._lastPosition.originX, 
+                        y: (pos as any)._lastPosition.originY 
+                    })
+                }
+            }, 10);
+        }
         this.set(data);
     }
 
@@ -95,6 +111,13 @@ export class OverlayItem<T = any> {
     }
 
     /**
+     * Get the position value of the overlay
+     */
+    public get position(): { x: string, y: string } {
+        return this.position_subject ? this.position_subject.getValue() : null;
+    }
+
+    /**
      * Close overlay
      * @param data Context data
      */
@@ -120,5 +143,5 @@ export class OverlayItem<T = any> {
     private _createInjector(ref: OverlayItem, injector: Injector) {
         const tokens = new WeakMap([[OverlayItem, ref]]);
         return new PortalInjector(injector, tokens);
-      }
+    }
 }

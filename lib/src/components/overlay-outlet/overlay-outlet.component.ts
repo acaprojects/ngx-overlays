@@ -39,9 +39,13 @@ export class OverlayOutletComponent implements OnInit {
         } else if (this.content instanceof TemplateRef) {
             this.method = 'template';
             this.context = {
+                ...(this.overlay.details.data || {}),
                 event: this.overlay.post.bind(this.overlay),
                 close: this.overlay.close.bind(this.overlay)
             };
+            Object.defineProperty(this.context, 'position', {
+                get: () => this.overlay.position
+            });
         }
     }
 }
