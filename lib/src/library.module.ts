@@ -14,8 +14,10 @@ import { PortalModule } from '@angular/cdk/portal';
 
 import { OverlayOutletComponent } from './components/overlay-outlet/overlay-outlet.component';
 import { NotificationOutletComponent } from './components/notification-outlet/notification-outlet.component';
+import { FloatingTextComponent } from './components/floating-text/floating-text.component';
 
 import { ModalDirective } from './directives/model.directive';
+import { FloatingTextDirective } from './directives/floating-text.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 
 import { LIBRARY_SETTINGS } from './settings';
@@ -23,18 +25,11 @@ import { LIBRARY_SETTINGS } from './settings';
 import * as day_api from 'dayjs';
 const dayjs = day_api;
 
-const COMPONENTS: Type<any>[] = [
-];
+const COMPONENTS: Type<any>[] = [];
 
-const DIRECTIVES: Type<any>[] = [
-    ModalDirective,
-    TooltipDirective
-];
+const DIRECTIVES: Type<any>[] = [ModalDirective, TooltipDirective, FloatingTextDirective];
 
-const ENTRY_COMPONENTS: Type<any>[] = [
-    OverlayOutletComponent,
-    NotificationOutletComponent
-];
+const ENTRY_COMPONENTS: Type<any>[] = [OverlayOutletComponent, NotificationOutletComponent, FloatingTextComponent];
 
 @NgModule({
     declarations: [
@@ -43,29 +38,25 @@ const ENTRY_COMPONENTS: Type<any>[] = [
         ...ENTRY_COMPONENTS,
         ...DIRECTIVES
     ],
-    imports: [
-        CommonModule,
-        OverlayModule,
-        PortalModule
-    ],
-    entryComponents: [
-        ...ENTRY_COMPONENTS
-    ],
+    imports: [CommonModule, OverlayModule, PortalModule],
+    entryComponents: [...ENTRY_COMPONENTS],
     exports: [
         // Export Directives,
         ...DIRECTIVES
     ]
 })
 class LibraryModule {
-    public static version = '0.3.2';
+    public static version = '0.4.0';
     private static init = false;
-    private build = dayjs(1554523609000);
+    private build = dayjs(1554935373000);
 
     constructor() {
         if (!LibraryModule.init) {
             const now = dayjs();
             LibraryModule.init = true;
-            const build = now.isSame(this.build, 'd') ? `Today at ${this.build.format('h:mmA')}` : this.build.format('D MMM YYYY, h:mmA');
+            const build = now.isSame(this.build, 'd')
+                ? `Today at ${this.build.format('h:mmA')}`
+                : this.build.format('D MMM YYYY, h:mmA');
             LIBRARY_SETTINGS.version(LibraryModule.version, build);
         }
     }

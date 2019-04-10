@@ -1,10 +1,14 @@
-<div class="app">
-    <div class="test">
-        <button (click)="model.show = !model.show" tooltip [content]="template" [(show)]="model.show">Tooltip test</button>
-        <button (click)="model.show_modal = !model.show_modal" modal [content]="template" [(show)]="model.show_modal">Modal test</button>
+<div class="app" a-floating-text text="test text" [emit]="model.emit">
+    <div class="test" (click)="model.emit = !model.emit">
+        <button (click)="model.show = !model.show" tooltip [content]="template" [(show)]="model.show">
+            Tooltip test
+        </button>
+        <button (click)="model.show_modal = !model.show_modal" modal [content]="template" [(show)]="model.show_modal">
+            Modal test
+        </button>
         <button (click)="notify()">Notify test</button>
     </div>
     <ng-template #template let-pos="position">
-        <div class="box">Test {{pos?.y}}</div>
+        <div class="box">Test {{ pos?.y }}</div>
     </ng-template>
 </div>

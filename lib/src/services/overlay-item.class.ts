@@ -1,6 +1,11 @@
-
 import { Injector } from '@angular/core';
-import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy, FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
+import {
+    Overlay,
+    OverlayRef,
+    OverlayConfig,
+    ConnectedPositionStrategy,
+    FlexibleConnectedPositionStrategy
+} from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 
@@ -26,7 +31,7 @@ export class OverlayItem<T = any> {
     /** Reference to Angular overlay */
     private _overlay: OverlayRef;
     /** Subject to store the active position of the tooltip */
-    private position_subject = new BehaviorSubject<{ x: string, y: string }>(null);
+    private position_subject = new BehaviorSubject<{ x: string; y: string }>(null);
 
     /** Subscription handlers for Overlay events */
     public subs: Subscription[] = [];
@@ -37,9 +42,9 @@ export class OverlayItem<T = any> {
         private injector: Injector,
         private overlay: Overlay,
         readonly details: IOverlayConfig<T>
-        ) {
-            this._overlay = this.overlay.create(this.details.config as OverlayConfig);
-            this._overlay.backdropClick().subscribe(() => this._close('backdrop_click', null));
+    ) {
+        this._overlay = this.overlay.create(this.details.config as OverlayConfig);
+        this._overlay.backdropClick().subscribe(() => this._close('backdrop_click', null));
     }
 
     /**
@@ -48,7 +53,9 @@ export class OverlayItem<T = any> {
      * @param config Overlay configuration
      */
     public open(data: T, config?: OverlayConfig) {
-        if (this._overlay) { this._close('reopen', null); }
+        if (this._overlay) {
+            this._close('reopen', null);
+        }
         if (config) {
             delete this._overlay;
             this._overlay = this.overlay.create(config);
@@ -59,28 +66,30 @@ export class OverlayItem<T = any> {
         this.event = new Subject<IOverlayEvent<T>>();
         this._overlay.attach(new ComponentPortal(OverlayOutletComponent, null, injector));
         if (config.positionStrategy && (config.positionStrategy as FlexibleConnectedPositionStrategy).positionChanges) {
-            const pos = (config.positionStrategy as FlexibleConnectedPositionStrategy);
-            pos.positionChanges.subscribe(
-                (p) => this.position_subject.next({ x: p.connectionPair.originX, y: p.connectionPair.originY })
+            const pos = config.positionStrategy as FlexibleConnectedPositionStrategy;
+            pos.positionChanges.subscribe(p =>
+                this.position_subject.next({ x: p.connectionPair.originX, y: p.connectionPair.originY })
             );
             setTimeout(() => {
                 if ((pos as any)._lastPosition) {
-                    this.position_subject.next({ 
-                        x: (pos as any)._lastPosition.originX, 
-                        y: (pos as any)._lastPosition.originY 
-                    })
+                    this.position_subject.next({
+                        x: (pos as any)._lastPosition.originX,
+                        y: (pos as any)._lastPosition.originY
+                    });
                 }
             }, 10);
         }
         this.set(data);
     }
 
-    public set(data: T) {
-
-    }
+    public set(data: T) {}
 
     public get content() {
         return this.details.content;
+    }
+
+    public get ID() {
+        return this.id;
     }
 
     /**
@@ -88,7 +97,7 @@ export class OverlayItem<T = any> {
      * @param config New overlay config
      */
     public update(config?: OverlayConfig) {
-        this.open(this.details.data, config || this.details.config as OverlayConfig);
+        this.open(this.details.data, config || (this.details.config as OverlayConfig));
     }
 
     /**
@@ -113,7 +122,7 @@ export class OverlayItem<T = any> {
     /**
      * Get the position value of the overlay
      */
-    public get position(): { x: string, y: string } {
+    public get position(): { x: string; y: string } {
         return this.position_subject ? this.position_subject.getValue() : null;
     }
 
@@ -131,7 +140,9 @@ export class OverlayItem<T = any> {
      * @param data Context data
      */
     private _close(type: IOverlayEventType, data: T) {
-        if (this._overlay) { this._overlay.dispose(); }
+        if (this._overlay) {
+            this._overlay.dispose();
+        }
         if (type !== 'reopen') {
             this.onClose.next({ type, data });
         }

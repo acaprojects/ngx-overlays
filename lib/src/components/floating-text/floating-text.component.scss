@@ -1,0 +1,25 @@
+.floating-text {
+    position: fixed;
+    color: #fff;
+    -webkit-text-stroke: 1px #000;
+    -webkit-text-fill: #fff;
+    transform: translateY(-100%);
+    animation: fly-off 1s linear;
+    font-size: 12px;
+}
+
+@keyframes fly-off {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    85% {
+        transform: translateY(-900%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-1000%);
+        opacity: 0;
+    }
+}

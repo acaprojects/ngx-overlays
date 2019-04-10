@@ -1,5 +1,15 @@
-
-import { Directive, Input, SimpleChanges, OnChanges, Output, EventEmitter, ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import {
+    Directive,
+    Input,
+    SimpleChanges,
+    OnChanges,
+    Output,
+    EventEmitter,
+    ElementRef,
+    Renderer2,
+    OnInit,
+    OnDestroy
+} from '@angular/core';
 import { OverlayConfig, Overlay, PositionStrategy, ConnectionPositionPair, ScrollStrategy } from '@angular/cdk/overlay';
 
 import { OverlayService } from '../services/overlay.service';
@@ -9,7 +19,7 @@ import { LIBRARY_SETTINGS } from '../settings';
 import { BehaviorSubject } from 'rxjs';
 
 @Directive({
-    selector: '[tooltip]',
+    selector: '[tooltip]'
 })
 export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     /** ID of the tooltip */
@@ -41,7 +51,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             originX: 'center',
             originY: 'bottom',
             overlayX: 'center',
-            overlayY: 'top',
+            overlayY: 'top'
         },
         left: {
             originX: 'start',
@@ -53,18 +63,23 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             originX: 'end',
             originY: 'center',
             overlayX: 'start',
-            overlayY: 'center',
+            overlayY: 'center'
         },
         top: {
             originX: 'center',
             originY: 'top',
             overlayX: 'center',
             overlayY: 'bottom'
-        },
+        }
     };
     private strategy: ScrollStrategy;
 
-    constructor(private el: ElementRef, private service: OverlayService, private overlay: Overlay, private renderer: Renderer2) {}
+    constructor(
+        private el: ElementRef,
+        private service: OverlayService,
+        private overlay: Overlay,
+        private renderer: Renderer2
+    ) {}
 
     public ngOnInit(): void {
         this.updateConfig();
@@ -93,7 +108,12 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
                 setTimeout(() => this.open(), 50);
             } else {
                 if (!this.content && this.el) {
-                    LIBRARY_SETTINGS.log('Tooltip', 'No content for tooltip attached to element', this.el.nativeElement, 'warn');
+                    LIBRARY_SETTINGS.log(
+                        'Tooltip',
+                        'No content for tooltip attached to element',
+                        this.el.nativeElement,
+                        'warn'
+                    );
                 } else if (!this.show && changes.show.previousValue) {
                     this.service.close(this.id);
                 }
@@ -106,17 +126,22 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      */
     public open() {
         this.listenForScroll();
-        this.service.open(this.id, {
-            klass: this.klass,
-            content: this.content,
-            data: this.data,
-            config: this.id,
-        }, (e) => this.event.emit(e), (e) => {
-            this.show = false;
-            this.showChange.emit(false);
-            this.close.emit(e);
-            this.clearListeners();
-        });
+        this.service.open(
+            this.id,
+            {
+                klass: this.klass,
+                content: this.content,
+                data: this.data,
+                config: this.id
+            },
+            e => this.event.emit(e),
+            e => {
+                this.show = false;
+                this.showChange.emit(false);
+                this.close.emit(e);
+                this.clearListeners();
+            }
+        );
     }
 
     /**
@@ -125,7 +150,8 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      */
     private getOverlayPosition(origin: HTMLElement): PositionStrategy {
         const positions = this.getPositions();
-        const positionStrategy = this.overlay.position()
+        const positionStrategy = this.overlay
+            .position()
             .flexibleConnectedTo(origin)
             .withPositions(positions)
             .withPush(false);
@@ -150,12 +176,15 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      * Update tooltip's overlay config
      */
     private updateConfig(): void {
-        this.service.registerPreset(this.id, new OverlayConfig({
-            minWidth: 2,
-            minHeight: 2,
-            positionStrategy: this.getOverlayPosition(this.el.nativeElement),
-            scrollStrategy: this.strategy
-        }));
+        this.service.registerPreset(
+            this.id,
+            new OverlayConfig({
+                minWidth: 2,
+                minHeight: 2,
+                positionStrategy: this.getOverlayPosition(this.el.nativeElement),
+                scrollStrategy: this.strategy
+            })
+        );
     }
 
     /** Listen for scroll events when shown to  */
@@ -172,7 +201,9 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      * Clear any listeners for scrolling
      */
     private clearListeners() {
-        for (const l of this.listeners) { l(); }
+        for (const l of this.listeners) {
+            l();
+        }
         this.listeners = [];
     }
 
@@ -183,5 +214,4 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         this.updateConfig();
         this.service.update(this.id, this.service.preset(this.id));
     }
-
 }
