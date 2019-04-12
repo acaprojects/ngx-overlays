@@ -7,13 +7,13 @@ import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.comp
 import { NotificationOutletComponent, INotification, NotifyCallback } from '../components/notification-outlet/notification-outlet.component';
 import { Subject } from 'rxjs';
 
-export interface IOverlayConfig<T> {
+export interface IOverlayConfig<T = any> {
     /** CSS class to add to the root element on the overlay */
     klass?: string;
     /** Component, template or HTML to render within the overlay */
-    content: OverlayContent;
+    content?: OverlayContent;
     /** Model passed to the overlay content component/template */
-    data: T;
+    data?: T;
     /** Reference to an element for the overlay to position relative to */
     ref?: HTMLElement;
     /** Whether the overlay has a backdrop */
@@ -121,6 +121,9 @@ export class OverlayService {
             details.config = this.preset(details.config);
         }
         if (!this._refs[name]) { this.register(name, details); }
+        if (!this._refs[name].content) {
+            throw new Error(`No content set for the overlay ${name}`);
+        }
         this._refs[name].open(details.data, details.config || this.preset());
         if (this._refs[name]) {
             if (next) { this._refs[name].listen(next); }
