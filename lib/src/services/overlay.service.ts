@@ -1,10 +1,13 @@
-
 import { ApplicationRef, Injectable, ViewContainerRef, Injector } from '@angular/core';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 
 import { OverlayItem } from './overlay-item.class';
 import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.component';
-import { NotificationOutletComponent, INotification, NotifyCallback } from '../components/notification-outlet/notification-outlet.component';
+import {
+    NotificationOutletComponent,
+    INotification,
+    NotifyCallback
+} from '../components/notification-outlet/notification-outlet.component';
 import { Subject } from 'rxjs';
 
 export interface IOverlayConfig<T = any> {
@@ -45,23 +48,37 @@ export class OverlayService {
         this._notify.remove = new Subject<string>();
         this._notify.delay = new Subject<number>();
         // Register default overlay config
-        this.registerPreset('default', new OverlayConfig({
-            minWidth: 2,
-            minHeight: 2,
-            hasBackdrop: false,
-            backdropClass: 'overlay-backdrop',
-            positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-            scrollStrategy: this.overlay.scrollStrategies.noop()
-        }));
+        this.registerPreset(
+            'default',
+            new OverlayConfig({
+                minWidth: 2,
+                minHeight: 2,
+                hasBackdrop: false,
+                backdropClass: 'overlay-backdrop',
+                positionStrategy: this.overlay
+                    .position()
+                    .global()
+                    .centerHorizontally()
+                    .centerVertically(),
+                scrollStrategy: this.overlay.scrollStrategies.noop()
+            })
+        );
         // Register default modal overlay config
-        this.registerPreset('modal', new OverlayConfig({
-            minWidth: 2,
-            minHeight: 2,
-            hasBackdrop: true,
-            backdropClass: 'overlay-backdrop',
-            positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-            scrollStrategy: this.overlay.scrollStrategies.block()
-        }));
+        this.registerPreset(
+            'modal',
+            new OverlayConfig({
+                minWidth: 2,
+                minHeight: 2,
+                hasBackdrop: true,
+                backdropClass: 'overlay-backdrop',
+                positionStrategy: this.overlay
+                    .position()
+                    .global()
+                    .centerHorizontally()
+                    .centerVertically(),
+                scrollStrategy: this.overlay.scrollStrategies.block()
+            })
+        );
     }
 
     /**
@@ -69,7 +86,9 @@ export class OverlayService {
      * @param view View Container to attach the notifications display
      */
     set view(view: ViewContainerRef) {
-        if (view) { this._view = view; }
+        if (view) {
+            this._view = view;
+        }
         if (this._view) {
             this.loadNotificationsOutlet();
         }
@@ -80,9 +99,12 @@ export class OverlayService {
      */
     public loadView(tries: number = 0) {
         const app_ref = this.injector.get(ApplicationRef) as any;
-        if (app_ref && app_ref._rootComponents && app_ref._rootComponents[0]
-            && app_ref._rootComponents[0]._hostElement) {
-
+        if (
+            app_ref &&
+            app_ref._rootComponents &&
+            app_ref._rootComponents[0] &&
+            app_ref._rootComponents[0]._hostElement
+        ) {
             this.default_vc = app_ref._rootComponents[0]._hostElement.vcRef;
             if (this.default_vc) {
                 this._view = this.default_vc;
@@ -102,7 +124,9 @@ export class OverlayService {
      * @param config Overlay configuration
      */
     public register<T = any>(name: string, config: IOverlayConfig<T>): OverlayItem<T> {
-        if (this._refs[name]) { this._refs[name].close(); }
+        if (this._refs[name]) {
+            this._refs[name].close();
+        }
         this._refs[name] = new OverlayItem<T>(name, this, this.injector, this.overlay, config);
         return this._refs[name];
     }
@@ -114,20 +138,29 @@ export class OverlayService {
      * @param next Overlay event callback
      * @param on_close Overlay on close callback
      */
-    public open<T = any>(name: string, details: IOverlayConfig<T>, next?: (e) => void, on_close?: (e) => void, ) {
+    public open<T = any>(name: string, details: IOverlayConfig<T>, next?: (e) => void, on_close?: (e) => void) {
         if (!details.config) {
             details.config = this.preset();
         } else if (!(details.config instanceof OverlayConfig)) {
             details.config = this.preset(details.config);
         }
-        if (!this._refs[name]) { this.register(name, details); }
+        if (!this._refs[name]) {
+            this.register(name, details);
+        }
         if (!this._refs[name].content) {
             throw new Error(`No content set for the overlay ${name}`);
         }
-        this._refs[name].open(details.data, details.config || this.preset());
+        const item = this._refs[name];
+        const config =
+            item.details.config instanceof OverlayConfig ? item.details.config : this.preset(item.details.config);
+        item.open(details.data, details.config || config || this.preset());
         if (this._refs[name]) {
-            if (next) { this._refs[name].listen(next); }
-            if (on_close) { this._refs[name].onClose.subscribe(on_close); }
+            if (next) {
+                this._refs[name].listen(next);
+            }
+            if (on_close) {
+                this._refs[name].onClose.subscribe(on_close);
+            }
         }
     }
 
@@ -142,7 +175,9 @@ export class OverlayService {
      * @param name Overlay identifier
      */
     public close(name: string) {
-        if (this._refs[name]) { this._refs[name].close(null); }
+        if (this._refs[name]) {
+            this._refs[name].close(null);
+        }
     }
 
     /**
@@ -150,7 +185,9 @@ export class OverlayService {
      * @param name Overlay identifier
      */
     public remove(name: string) {
-        if (this._refs[name]) { this._refs[name] = null; }
+        if (this._refs[name]) {
+            this._refs[name] = null;
+        }
     }
 
     /**
@@ -179,13 +216,20 @@ export class OverlayService {
             this.timers.notify = null;
         }
         this.timers.notify = <any>setTimeout(() => {
-            this.registerPreset('ACA_NOTIFICATIONS_OUTLET', new OverlayConfig({
-                width: '0',
-                height: '0',
-                hasBackdrop: false,
-                positionStrategy: this.overlay.position().global().bottom('0').right('0'),
-                scrollStrategy: this.overlay.scrollStrategies.noop()
-            }));
+            this.registerPreset(
+                'ACA_NOTIFICATIONS_OUTLET',
+                new OverlayConfig({
+                    width: '0',
+                    height: '0',
+                    hasBackdrop: false,
+                    positionStrategy: this.overlay
+                        .position()
+                        .global()
+                        .bottom('0')
+                        .right('0'),
+                    scrollStrategy: this.overlay.scrollStrategies.noop()
+                })
+            );
             this.open('ACA_NOTIFICATIONS_OUTLET', {
                 content: NotificationOutletComponent,
                 data: this._notify,
@@ -213,7 +257,7 @@ export class OverlayService {
                 on_action,
                 type,
                 delay,
-                event: (e) => on_action ? on_action(e) : null
+                event: e => (on_action ? on_action(e) : null)
             });
         }
         return id;
