@@ -1,8 +1,6 @@
 .floating-text {
     position: fixed;
-    color: #fff;
-    -webkit-text-stroke: 1px #000;
-    -webkit-text-fill: #fff;
+    color: #000;
     transform: translateY(-100%);
     animation: fly-off 1s linear;
     font-size: 12px;

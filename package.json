@@ -15,7 +15,7 @@
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "ngPackage": {
     "lib": {
-      "entryFile": "lib/src/public_api.ts"
+      "entryFile": "src/lib/public_api.ts"
     }
   },
   "peerDependencies": {
