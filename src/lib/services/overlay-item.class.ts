@@ -3,7 +3,6 @@ import {
     Overlay,
     OverlayRef,
     OverlayConfig,
-    ConnectedPositionStrategy,
     FlexibleConnectedPositionStrategy
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';

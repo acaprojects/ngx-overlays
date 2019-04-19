@@ -1,0 +1,96 @@
+.tooltip-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+$box-size: 18px;
+$height: 12px;
+
+.triangle {
+    position: relative;
+    height: $height;
+    width: $box-size * 2;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.box {
+    position: absolute;
+    top: $height;
+    left: 50%;
+    height: $box-size;
+    width: $box-size;
+    // border-radius: 4px;
+    transform: translate(-50%) rotate(45deg);
+    background-color: #fff; 
+    box-shadow: 0 1px 3px 0 rgba(#000, .2), 0 1px 1px 0 rgba(#000, .14), 0 2px 1px -1px rgba(#000, .12);
+        
+}
+
+.content {
+    position: relative;
+    left: 50%;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(#000, .2), 0 1px 1px 0 rgba(#000, .14), 0 2px 1px -1px rgba(#000, .12);
+    padding: .5em;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+.y-top {
+    flex-direction: column-reverse;
+
+    .box {
+        top: auto;
+        bottom: $height;
+    }
+}
+
+.y-top,
+.y-bottom {
+
+    &.x-left {
+        .content {
+            transform: translateX(-$box-size);
+        }
+    }
+
+    &.x-right {
+        .content {
+            left: auto;
+            right: 50%;
+            transform: translateX($box-size);
+        }
+    }
+}
+
+.y-center {
+    flex-direction: row;
+
+    .triangle {
+        width: $height;
+        height: $box-size * 2;
+    }
+
+    .box {
+        top: -$height / 2;
+        left: $box-size * 2;
+    }
+
+    .content {
+        left: auto;
+        top: 50%;
+        transform: none;
+    }
+
+    &.x-left {
+        flex-direction: row-reverse;
+
+        .box {
+            left: auto;
+            right: -$box-size;
+        }
+    }
+}

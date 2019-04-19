@@ -15,6 +15,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { OverlayOutletComponent } from './components/overlay-outlet/overlay-outlet.component';
 import { NotificationOutletComponent } from './components/notification-outlet/notification-outlet.component';
 import { FloatingTextComponent } from './components/floating-text/floating-text.component';
+import { TooltipWrapperComponent } from './components/tooltip-wrapper/tooltip-wrapper.component';
 
 import { ModalDirective } from './directives/model.directive';
 import { FloatingTextDirective } from './directives/floating-text.directive';
@@ -25,7 +26,7 @@ import { LIBRARY_SETTINGS } from './settings';
 import * as day_api from 'dayjs';
 const dayjs = day_api;
 
-const COMPONENTS: Type<any>[] = [];
+const COMPONENTS: Type<any>[] = [TooltipWrapperComponent];
 
 const DIRECTIVES: Type<any>[] = [ModalDirective, TooltipDirective, FloatingTextDirective];
 
@@ -34,14 +35,15 @@ const ENTRY_COMPONENTS: Type<any>[] = [OverlayOutletComponent, NotificationOutle
 @NgModule({
     declarations: [
         // Declare Directive
-        // ...COMPONENTS
+        ...COMPONENTS,
         ...ENTRY_COMPONENTS,
         ...DIRECTIVES
     ],
     imports: [CommonModule, OverlayModule, PortalModule],
     entryComponents: [...ENTRY_COMPONENTS],
     exports: [
-        // Export Directives,
+        // Export Directives
+        ...COMPONENTS,
         ...DIRECTIVES
     ]
 })

@@ -1,0 +1,16 @@
+<div
+    [class]="
+        'tooltip-wrapper' +
+        (klass ? ' ' + klass : '') +
+        (offsetX ? ' x-' + offsetX : '') +
+        (offsetY ? ' y-' + offsetY : '')
+    "
+    widget
+>
+    <div class="triangle">
+        <div class="box"></div>
+    </div>
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+</div>

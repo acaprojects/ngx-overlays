@@ -3,6 +3,9 @@
         <button (click)="model.show = !model.show" tooltip [content]="template" [(show)]="model.show">
             Tooltip test
         </button>
+        <button (click)="model.show2 = !model.show2" tooltip [content]="template2" [(show)]="model.show2">
+            Tooltip Wrapper test
+        </button>
         <button (click)="model.show_modal = !model.show_modal" modal [content]="template" [(show)]="model.show_modal">
             Modal test
         </button>
@@ -10,5 +13,10 @@
     </div>
     <ng-template #template let-pos="position">
         <div class="box">Test {{ pos?.y }}</div>
+    </ng-template>
+    <ng-template #template2 let-pos="position">
+        <a-tooltip-wrapper [offsetX]="pos?.x" [offsetY]="pos?.y">
+            Test {{ pos?.y }} {{ pos?.x }}
+        </a-tooltip-wrapper>
     </ng-template>
 </div>

@@ -1,5 +1,6 @@
 import { ApplicationRef, Injectable, ViewContainerRef, Injector } from '@angular/core';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { Subject } from 'rxjs';
 
 import { OverlayItem } from './overlay-item.class';
 import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.component';
@@ -8,7 +9,6 @@ import {
     INotification,
     NotifyCallback
 } from '../components/notification-outlet/notification-outlet.component';
-import { Subject } from 'rxjs';
 
 export interface IOverlayConfig<T = any> {
     /** CSS class to add to the root element on the overlay */
