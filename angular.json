@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-widgets": {
+    "ngx-overlays": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -54,18 +54,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-widgets:build"
+            "browserTarget": "ngx-overlays:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-widgets:build:production"
+              "browserTarget": "ngx-overlays:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-widgets:build"
+            "browserTarget": "ngx-overlays:build"
           }
         },
         "test": {
@@ -79,6 +79,12 @@
             "styles": [
               "src/styles.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/shared",
+                "node_modules"
+              ]
+            },
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -99,7 +105,7 @@
         }
       }
     },
-    "ngx-widgets-e2e": {
+    "ngx-overlays-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -108,7 +114,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "ngx-widgets:serve"
+            "devServerTarget": "ngx-overlays:serve"
           }
         },
         "lint": {
@@ -125,7 +131,7 @@
       }
     }
   },
-  "defaultProject": "ngx-widgets",
+  "defaultProject": "ngx-overlays",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
