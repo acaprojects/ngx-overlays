@@ -47,7 +47,6 @@ export class FloatingTextDirective {
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.emit) {
             const id = `floating-text-${Math.floor(Math.random() * 999999)}`;
-            console.log('ID:', id, this.center);
             this.service.open(id, { content: FloatingTextComponent, data: { text: this.text, center: this.center } });
         }
     }
@@ -61,6 +60,5 @@ export class FloatingTextDirective {
             x: event instanceof MouseEvent ? event.clientX : event.touches[0].clientX,
             y: event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
         };
-        console.log('Center:', this.center);
     }
 }
