@@ -9,6 +9,9 @@
         <button (click)="model.show_modal = !model.show_modal" modal [content]="template" [(show)]="model.show_modal">
             Modal test
         </button>
+        <button (click)="model.show3 = !model.show3" tooltip [content]="template" [(show)]="model.show3" [hover]="true">
+            Hover Tooltip test
+        </button>
         <button (click)="notify()">Notify test</button>
     </div>
     <ng-template #template let-pos="position">

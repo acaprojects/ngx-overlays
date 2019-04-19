@@ -19,7 +19,6 @@ export class FloatingTextComponent implements OnInit {
     public ngOnInit(): void {
         this.text = this.item.details.data.text;
         this.center = this.item.details.data.center;
-        console.log('Item:', this.item);
         setTimeout(() => this.service.close(this.item.ID), 1000);
     }
 }

@@ -36,6 +36,8 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     @Input() public position: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
     /** Whether tooltip repositions on scroll */
     @Input() public reposition = true;
+    /** Whether hovering over the parent element shows the tooltip */
+    @Input() public hover: boolean;
     /** Change emitter for show */
     @Output() public showChange = new EventEmitter<boolean>();
     /** Event emitter for overlay component */
@@ -45,6 +47,10 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
 
     /** Scroll listeners */
     private listeners: (() => void)[] = [];
+    /** Listener for hover start events */
+    private _hover_listener: () => void;
+    /** Listner for hover leave events */
+    private _leave_listener: () => void;
     /** Pre-defined tooltip positions */
     private positions: { [name: string]: ConnectionPositionPair } = {
         bottom: {
@@ -91,6 +97,12 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     public ngOnDestroy(): void {
         this.service.close(this.id);
         this.service.remove(this.id);
+        this.show = false;
+        this.showChange.emit(false);
+        if (this._hover_listener) {
+            this._hover_listener();
+            this._hover_listener = null;
+        }
         this.clearListeners();
     }
 
@@ -103,20 +115,14 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             this.strategy = this.reposition ? ss.reposition() : ss.noop();
             this.updateConfig();
         }
+        if (changes.hover) {
+            this.listenForHover();
+        }
         if (changes.show) {
             if (this.show && this.content) {
                 setTimeout(() => this.open(), 50);
             } else {
-                if (!this.content && this.el) {
-                    LIBRARY_SETTINGS.log(
-                        'Tooltip',
-                        'No content for tooltip attached to element',
-                        this.el.nativeElement,
-                        'warn'
-                    );
-                } else if (!this.show && changes.show.previousValue) {
-                    this.service.close(this.id);
-                }
+                this.closeTooltip(changes.show.previousValue);
             }
         }
     }
@@ -205,6 +211,10 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             l();
         }
         this.listeners = [];
+        if (this._leave_listener) {
+            this._leave_listener();
+            this._leave_listener = null;
+        }
     }
 
     /**
@@ -213,5 +223,39 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     private update() {
         this.updateConfig();
         this.service.update(this.id, this.service.preset(this.id));
+    }
+
+    /**
+     * Listen for hover events
+     */
+    private listenForHover() {
+        this._hover_listener = this.renderer.listen(this.el.nativeElement, 'mouseenter', _ => {
+            this.show = true;
+            this.showChange.emit(this.show);
+            this._leave_listener = this.renderer.listen(this.el.nativeElement, 'mouseleave', _ => {
+                console.log('Close:', this.show);
+                this.show = false;
+                this.showChange.emit(this.show);
+                this.closeTooltip(this.show);
+            })
+            this.open();
+        });
+    }
+
+    /**
+     * Close open tooltip
+     * @param previous Previous show value 
+     */
+    private closeTooltip(previous: boolean) {
+        if (!this.content && this.el) {
+            LIBRARY_SETTINGS.log(
+                'Tooltip',
+                'No content for tooltip attached to element',
+                this.el.nativeElement,
+                'warn'
+            );
+        } else if (!this.show && previous) {
+            this.service.close(this.id);
+        }
     }
 }
