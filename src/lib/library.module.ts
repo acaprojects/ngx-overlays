@@ -50,7 +50,7 @@ const ENTRY_COMPONENTS: Type<any>[] = [OverlayOutletComponent, NotificationOutle
 class LibraryModule {
     public static version = '0.4.2';
     private static init = false;
-    private build = dayjs(1555234186000);
+    private build = dayjs(1557187379000);
 
     constructor() {
         if (!LibraryModule.init) {

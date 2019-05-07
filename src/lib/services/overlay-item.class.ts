@@ -31,6 +31,8 @@ export class OverlayItem<T = any> {
     private _overlay: OverlayRef;
     /** Subject to store the active position of the tooltip */
     private position_subject = new BehaviorSubject<{ x: string; y: string }>(null);
+    /** Data for the related overlay item */
+    private _data: T;
 
     /** Subscription handlers for Overlay events */
     public subs: Subscription[] = [];
@@ -81,12 +83,24 @@ export class OverlayItem<T = any> {
         this.set(data);
     }
 
-    public set(data: T) {}
+    /**
+     * Update the overlay item metadata
+     */
+    public set(data: T) {
+        this._data = data;
+    }
 
+    /** Overlay item metadata  */
+    public get data(): T {
+        return this._data || this.details.data || null;
+    }
+
+    /** Content for the overlay item template */
     public get content() {
         return this.details.content;
     }
 
+    /** Identifier of the overlay item */
     public get ID() {
         return this.id;
     }
