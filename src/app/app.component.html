@@ -13,6 +13,7 @@
             Hover Tooltip test
         </button>
         <button (click)="notify()">Notify test</button>
+        <button a-context-item [content]="list">Context Item Test</button>
     </div>
     <ng-template #template let-pos="position">
         <div class="box">Test {{ pos?.y }}</div>
@@ -21,5 +22,14 @@
         <a-tooltip-wrapper [offsetX]="pos?.x" [offsetY]="pos?.y">
             Test {{ pos?.y }} {{ pos?.x }}
         </a-tooltip-wrapper>
+    </ng-template>
+    <ng-template #list let-event="event">
+        <div class="list" (click)="event('reopen')">
+            <div class="item">Item 1</div>
+            <div class="item">Item 2</div>
+            <div class="item">Item 3</div>
+            <div class="item">Item 4</div>
+            <div class="item">Item 5</div>
+        </div>
     </ng-template>
 </div>

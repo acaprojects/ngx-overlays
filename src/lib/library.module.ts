@@ -16,21 +16,27 @@ import { OverlayOutletComponent } from './components/overlay-outlet/overlay-outl
 import { NotificationOutletComponent } from './components/notification-outlet/notification-outlet.component';
 import { FloatingTextComponent } from './components/floating-text/floating-text.component';
 import { TooltipWrapperComponent } from './components/tooltip-wrapper/tooltip-wrapper.component';
+import { OverlayContentComponent } from './components/overlay-content/overlay-content.component';
 
 import { ModalDirective } from './directives/model.directive';
 import { FloatingTextDirective } from './directives/floating-text.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
+import { ContextItemDirective } from './directives/context-item.directive';
 
 import { LIBRARY_SETTINGS } from './settings';
 
 import * as day_api from 'dayjs';
 const dayjs = day_api;
 
-const COMPONENTS: Type<any>[] = [TooltipWrapperComponent];
+const COMPONENTS: Type<any>[] = [TooltipWrapperComponent, OverlayContentComponent];
 
-const DIRECTIVES: Type<any>[] = [ModalDirective, TooltipDirective, FloatingTextDirective];
+const DIRECTIVES: Type<any>[] = [ModalDirective, TooltipDirective, FloatingTextDirective, ContextItemDirective];
 
-const ENTRY_COMPONENTS: Type<any>[] = [OverlayOutletComponent, NotificationOutletComponent, FloatingTextComponent];
+const ENTRY_COMPONENTS: Type<any>[] = [
+    OverlayOutletComponent,
+    NotificationOutletComponent,
+    FloatingTextComponent
+];
 
 @NgModule({
     declarations: [

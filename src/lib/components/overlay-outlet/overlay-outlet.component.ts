@@ -19,11 +19,17 @@ export class OverlayOutletComponent implements OnInit {
     public content: OverlayContent;
     /** Context data to pass to the template/component injected into the component */
     public context;
+    /** Offset position for the overlay */
+    public offset: IPoint;
 
-    constructor(private overlay: OverlayItem) { }
+    constructor(private overlay: OverlayItem) {
+    }
 
     public ngOnInit() {
-        this.setMethod();
+        setTimeout(() => {
+            this.offset = this.overlay.details.offset;
+            this.setMethod();
+        }, 1);
     }
 
     /** Set injection method based of the content passed */

@@ -1,4 +1,11 @@
-<div [class]="'overlay-outlet' + (klass ? ' ' + klass : '')" widget>
+<div
+    [class]="'overlay-outlet' + (klass ? ' ' + klass : '')"
+    widget
+    *ngIf="content"
+    [style.position]="offset ? 'fixed' : ''"
+    [style.top]="offset?.y + 'px'"
+    [style.left]="offset?.x + 'px'"
+>
     <ng-container [ngSwitch]="method">
         <div *ngSwitchCase="'text'" [innerHTML]="content"></div>
         <ng-container *ngSwitchCase="'template'">
