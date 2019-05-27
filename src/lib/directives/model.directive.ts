@@ -7,7 +7,7 @@ import { IOverlayEvent } from '../services/overlay-item.class';
 import { OverlayContent } from '../services/overlay.interfaces';
 
 @Directive({
-    selector: '[modal]',
+    selector: '[a-modal]',
 })
 export class ModalDirective<T = any> implements OnChanges {
     @Input() public id = `modal-${Math.floor(Math.random() * 9999999)}`;

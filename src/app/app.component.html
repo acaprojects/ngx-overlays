@@ -1,15 +1,15 @@
 <div class="app" a-floating-text text="test text" [emit]="model.emit">
     <div class="test" (click)="model.emit = !model.emit">
-        <button (click)="model.show = !model.show" tooltip [content]="template" [(show)]="model.show">
+        <button (click)="model.show = !model.show" a-tooltip [content]="template" [(show)]="model.show">
             Tooltip test
         </button>
-        <button (click)="model.show2 = !model.show2" tooltip [content]="template2" [(show)]="model.show2">
+        <button (click)="model.show2 = !model.show2" a-tooltip [content]="template2" [(show)]="model.show2">
             Tooltip Wrapper test
         </button>
-        <button (click)="model.show_modal = !model.show_modal" modal [content]="template" [(show)]="model.show_modal">
+        <button (click)="model.show_modal = !model.show_modal" a-modal [content]="template" [(show)]="model.show_modal">
             Modal test
         </button>
-        <button (click)="model.show3 = !model.show3" tooltip [content]="template" [(show)]="model.show3" [hover]="true">
+        <button (click)="model.show3 = !model.show3" a-tooltip [content]="template" [(show)]="model.show3" [hover]="true">
             Hover Tooltip test
         </button>
         <button (click)="notify()">Notify test</button>

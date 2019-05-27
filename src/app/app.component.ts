@@ -18,11 +18,15 @@ export class AppComponent implements OnInit {
     }
 
     public notify() {
-        this.service.Overlay.notify(
-            `Test ${Math.floor(Math.random() * 999999)}`,
-            'Test',
-            (i) => console.log('Test'),
-            null,
-            Math.floor(Math.random() * 10) * 3000);
+        Array(3).fill(0).forEach((n, i) => {
+            setTimeout(() => {
+                this.service.Overlay.notify(
+                    `Test ${Math.floor(Math.random() * 999999)}`,
+                    'Test',
+                    _ => console.log('Test'),
+                    null,
+                    Math.floor(Math.random() * 10) * 3000);
+            }, 300 * i);
+        });
     }
 }

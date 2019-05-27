@@ -18,7 +18,7 @@ import { LIBRARY_SETTINGS } from '../settings';
 import { OverlayContent } from '../services/overlay.interfaces';
 
 @Directive({
-    selector: '[tooltip]'
+    selector: '[a-tooltip]'
 })
 export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     /** ID of the tooltip */
@@ -243,7 +243,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Close open tooltip
-     * @param previous Previous show value 
+     * @param previous Previous show value
      */
     private closeTooltip(previous: boolean) {
         if (!this.content && this.el) {
