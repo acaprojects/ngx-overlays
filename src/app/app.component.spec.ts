@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import { OverlayModule } from '../lib/public_api';
+import { AOverlayModule } from '../lib/public_api';
 
 describe('AppComponent', () => {
     let originalTimeout: number;
@@ -11,7 +11,7 @@ describe('AppComponent', () => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
         TestBed.configureTestingModule({
             declarations: [AppComponent],
-            imports: [OverlayModule]
+            imports: [AOverlayModule]
         }).compileComponents();
     }));
 

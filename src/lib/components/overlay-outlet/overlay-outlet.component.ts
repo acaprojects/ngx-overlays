@@ -2,9 +2,7 @@
 import { Component, OnInit, TemplateRef, Type, ViewEncapsulation } from '@angular/core';
 
 import { OverlayItem } from '../../services/overlay-item.class';
-
-/** Valid content types Template, Component or HTML string */
-export type OverlayContent = TemplateRef<any> | Type<any> | string;
+import { IPoint, OverlayContent } from '../../services/overlay.interfaces';
 
 @Component({
     selector: 'overlay-outlet',

@@ -8,9 +8,10 @@ import {
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 
-import { OverlayService, IOverlayConfig } from './overlay.service';
+import { OverlayService } from './overlay.service';
 import { PortalInjector } from './portal-injector.class';
 import { OverlayOutletComponent } from '../components/overlay-outlet/overlay-outlet.component';
+import { IOverlayConfig } from './overlay.interfaces';
 
 /** Various types of overlay events */
 type IOverlayEventType = 'close' | 'backdrop_click' | 'event' | 'finish' | 'other' | 'reopen';

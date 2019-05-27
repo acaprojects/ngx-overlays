@@ -3,27 +3,12 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Subject } from 'rxjs';
 
 import { OverlayItem } from './overlay-item.class';
-import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.component';
 import {
     NotificationOutletComponent,
     INotification,
     NotifyCallback
 } from '../components/notification-outlet/notification-outlet.component';
-
-export interface IOverlayConfig<T = any> {
-    /** CSS class to add to the root element on the overlay */
-    klass?: string;
-    /** Component, template or HTML to render within the overlay */
-    content?: OverlayContent;
-    /** Model passed to the overlay content component/template */
-    data?: T;
-    /** Reference to an element for the overlay to position relative to */
-    ref?: HTMLElement;
-    /** Whether the overlay has a backdrop */
-    backdrop?: boolean;
-    /** Angular Overlay Config or a string identifier of a preset Overlay Config */
-    config?: OverlayConfig | string;
-}
+import { IOverlayConfig, OverlayContent } from './overlay.interfaces';
 
 @Injectable({
     providedIn: 'root'
@@ -75,7 +60,7 @@ export class OverlayService {
             })
         );
         this.loadNotificationsOutlet();
-        }
+    }
 
     /**
      * Register an overlay item

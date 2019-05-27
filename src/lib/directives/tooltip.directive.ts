@@ -13,10 +13,9 @@ import {
 import { OverlayConfig, Overlay, PositionStrategy, ConnectionPositionPair, ScrollStrategy } from '@angular/cdk/overlay';
 
 import { OverlayService } from '../services/overlay.service';
-import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.component';
 import { IOverlayEvent } from '../services/overlay-item.class';
 import { LIBRARY_SETTINGS } from '../settings';
-import { BehaviorSubject } from 'rxjs';
+import { OverlayContent } from '../services/overlay.interfaces';
 
 @Directive({
     selector: '[tooltip]'

@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, TemplateRef, Renderer2 } from '@angular/c
 import { Subject, Subscription } from 'rxjs';
 
 import { OverlayItem, IOverlayEvent } from '../../services/overlay-item.class';
-import { OverlayContent } from '../overlay-outlet/overlay-outlet.component';
+import { OverlayContent } from '../../services/overlay.interfaces';
 
 export interface INotification {
     /** Unique identifier */

@@ -3,8 +3,8 @@ import { Directive, Input, SimpleChanges, OnChanges, Output, EventEmitter } from
 import { OverlayConfig } from '@angular/cdk/overlay';
 
 import { OverlayService } from '../services/overlay.service';
-import { OverlayContent } from '../components/overlay-outlet/overlay-outlet.component';
 import { IOverlayEvent } from '../services/overlay-item.class';
+import { OverlayContent } from '../services/overlay.interfaces';
 
 @Directive({
     selector: '[modal]',
