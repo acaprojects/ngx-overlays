@@ -1,7 +1,6 @@
-import { Component, ViewContainerRef, ViewEncapsulation, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 
 import { AppService } from './services/app.service';
-import { timeout } from 'q';
 
 @Component({
     selector: 'app-root',
@@ -13,9 +12,7 @@ export class AppComponent implements OnInit {
 
     public model: { [name: string]: any } = {};
 
-    constructor(private view: ViewContainerRef, private service: AppService) {
-        this.service.Overlay.view = view;
-    }
+    constructor(private service: AppService) { }
 
     public ngOnInit(): void {
     }

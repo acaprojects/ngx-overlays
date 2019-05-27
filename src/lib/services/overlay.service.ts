@@ -1,4 +1,4 @@
-import { ApplicationRef, Injectable, ViewContainerRef, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Subject } from 'rxjs';
 
@@ -29,10 +29,6 @@ export interface IOverlayConfig<T = any> {
     providedIn: 'root'
 })
 export class OverlayService {
-    /** Default view container reference */
-    private default_vc: ViewContainerRef = null;
-    /** View container reference */
-    private _view: ViewContainerRef = null;
     /** Store for Overlays */
     private _refs: { [name: string]: OverlayItem<any> } = {};
     /** Store for Overlay Config presets */
@@ -43,7 +39,6 @@ export class OverlayService {
     private timers: { [name: string]: number } = {};
 
     constructor(private overlay: Overlay, private injector: Injector) {
-        this.loadView();
         this._notify.add = new Subject<INotification>();
         this._notify.remove = new Subject<string>();
         this._notify.delay = new Subject<number>();
@@ -79,44 +74,8 @@ export class OverlayService {
                 scrollStrategy: this.overlay.scrollStrategies.block()
             })
         );
-    }
-
-    /**
-     * Sets the view to attach the notification display, usually the root component
-     * @param view View Container to attach the notifications display
-     */
-    set view(view: ViewContainerRef) {
-        if (view) {
-            this._view = view;
+        this.loadNotificationsOutlet();
         }
-        if (this._view) {
-            this.loadNotificationsOutlet();
-        }
-    }
-
-    /**
-     * Attempts to load the root view container
-     */
-    public loadView(tries: number = 0) {
-        const app_ref = this.injector.get(ApplicationRef) as any;
-        if (
-            app_ref &&
-            app_ref._rootComponents &&
-            app_ref._rootComponents[0] &&
-            app_ref._rootComponents[0]._hostElement
-        ) {
-            this.default_vc = app_ref._rootComponents[0]._hostElement.vcRef;
-            if (this.default_vc) {
-                this._view = this.default_vc;
-            }
-        } else if (tries < 10) {
-            tries++;
-            return setTimeout(() => this.loadView(tries), 500);
-        }
-        if (this._view) {
-            this.loadNotificationsOutlet();
-        }
-    }
 
     /**
      * Register an overlay item
