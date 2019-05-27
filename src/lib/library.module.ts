@@ -56,13 +56,11 @@ class LibraryModule {
         if (!LibraryModule.init) {
             const now = dayjs();
             LibraryModule.init = true;
-            const build = now.isSame(this.build, 'd')
-                ? `Today at ${this.build.format('h:mmA')}`
-                : this.build.format('D MMM YYYY, h:mmA');
+            const build = now.isSame(this.build, 'd') ? `Today at ${this.build.format('h:mmA')}` : this.build.format('D MMM YYYY, h:mmA');
             LIBRARY_SETTINGS.version(LibraryModule.version, build);
         }
     }
 }
 
 export { LibraryModule as ACA_OVERLAY_MODULE };
-export { LibraryModule as OverlayModule };
+export { LibraryModule as AOverlayModule };
