@@ -17,8 +17,10 @@ export class FloatingTextComponent implements OnInit {
     constructor(private item: OverlayItem, private service: OverlayService) {}
 
     public ngOnInit(): void {
-        this.text = this.item.details.data.text;
-        this.center = this.item.details.data.center;
+        setTimeout(() => {
+            this.text = this.item.details.data.text;
+            this.center = this.item.details.data.center;
+        }, 10);
         setTimeout(() => this.service.close(this.item.ID), 1000);
     }
 }

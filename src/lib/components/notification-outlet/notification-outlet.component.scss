@@ -5,6 +5,8 @@
     right: 4px;
     display: flex;
     flex-direction: column;
+    z-index: 9999;
+
     * {
         user-select: none;
     }
@@ -45,6 +47,7 @@
     cursor: pointer;
     font-size: .8em;
     font-weight: 500;
+    margin: .5em;
     transition: opacity 200ms;
     &.visible {
         display: flex;

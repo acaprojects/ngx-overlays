@@ -65,6 +65,8 @@ export class NotificationOutletComponent implements OnInit, OnDestroy {
     public context: INotificationContext;
     /** Notification block to render in the outlet */
     public events: INotification[] = [];
+    /** Notification block to render in the outlet */
+    public displayed_events: INotification[] = [];
     /** Overlay service listeners */
     public subs: { [name: string]: Subscription } = {};
 
@@ -107,7 +109,8 @@ export class NotificationOutletComponent implements OnInit, OnDestroy {
                     close: () => this.remove(item.id)
                 };
             }
-            this.events.push(item);
+            this.events = this.events && this.events.length > 0 ? [...this.events, item] : [item];
+            this.displayed_events = this.events.slice(-8);
             item.close = () => this.remove(item.id);
             if (item.delay !== 0) {
                 setTimeout(() => this.remove(item.id), item.delay || this.delay || 5000);
@@ -120,10 +123,8 @@ export class NotificationOutletComponent implements OnInit, OnDestroy {
      * @param id ID of the notification
      */
     public remove(id: string): void {
-        const found = this.events.findIndex(i => i.id === id);
-        if (found >= 0) {
-            this.events.splice(found, 1);
-        }
+        this.events = this.events.filter(i => i.id !== id);
+        this.displayed_events = this.events.slice(-8);
     }
 
     /**
@@ -177,6 +178,15 @@ export class NotificationOutletComponent implements OnInit, OnDestroy {
             if (item.listeners[k]) { item.listeners[k](); }
         }
         item.offset = 0;
+    }
+
+    /**
+     * TrackBy method for notification ngFor
+     * @param item Item to track
+     * @param index Array index of the item
+     */
+    public trackByFn(item: INotification, index: number) {
+        return (item ? item.id : null) || index;
     }
 }
 
