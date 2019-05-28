@@ -22,8 +22,7 @@ export class OverlayOutletComponent implements OnInit {
     /** Offset position for the overlay */
     public offset: IPoint;
 
-    constructor(private overlay: OverlayItem) {
-    }
+    constructor(private overlay: OverlayItem) { }
 
     public ngOnInit() {
         setTimeout(() => {

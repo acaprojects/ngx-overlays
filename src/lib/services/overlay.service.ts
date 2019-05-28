@@ -108,9 +108,12 @@ export class OverlayService {
         }
     }
 
-    public update(name: string, preset?: OverlayConfig) {
+    /**
+     * Update the position and data of the overlay
+     */
+    public update<T = any>(name: string, data: T) {
         if (this._refs[name]) {
-            this._refs[name].update(preset || this.preset(name));
+            this._refs[name].set(data);
         }
     }
 

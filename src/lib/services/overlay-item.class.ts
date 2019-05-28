@@ -61,26 +61,13 @@ export class OverlayItem<T = any> {
         if (config) {
             delete this._overlay;
             this._overlay = this.overlay.create(config);
+            this.details.config = config;
             this._overlay.backdropClick().subscribe(() => this._close('backdrop_click', null));
         }
         const injector = this._createInjector(this, this.injector);
         this.onClose = new Subject<IOverlayEvent<T>>();
         this.event = new Subject<IOverlayEvent<T>>();
         this._overlay.attach(new ComponentPortal(OverlayOutletComponent, null, injector));
-        if (config.positionStrategy && (config.positionStrategy as FlexibleConnectedPositionStrategy).positionChanges) {
-            const pos = config.positionStrategy as FlexibleConnectedPositionStrategy;
-            pos.positionChanges.subscribe(p =>
-                this.position_subject.next({ x: p.connectionPair.originX, y: p.connectionPair.originY })
-            );
-            setTimeout(() => {
-                if ((pos as any)._lastPosition) {
-                    this.position_subject.next({
-                        x: (pos as any)._lastPosition.originX,
-                        y: (pos as any)._lastPosition.originY
-                    });
-                }
-            }, 10);
-        }
         this.set(data);
     }
 
@@ -88,7 +75,9 @@ export class OverlayItem<T = any> {
      * Update the overlay item metadata
      */
     public set(data: T) {
+        this._overlay.updatePosition();
         this._data = data;
+        this.updatePosition();
     }
 
     /** Overlay item metadata  */
@@ -104,14 +93,6 @@ export class OverlayItem<T = any> {
     /** Identifier of the overlay item */
     public get ID() {
         return this.id;
-    }
-
-    /**
-     * Update overlay configuration
-     * @param config New overlay config
-     */
-    public update(config?: OverlayConfig) {
-        this.open(this.details.data, config || (this.details.config as OverlayConfig));
     }
 
     /**
@@ -168,5 +149,23 @@ export class OverlayItem<T = any> {
     private _createInjector(ref: OverlayItem, injector: Injector) {
         const tokens = new WeakMap([[OverlayItem, ref]]);
         return new PortalInjector(injector, tokens);
+    }
+
+    /**
+     * Grab the latest position of the overlay outlet
+     */
+    private updatePosition() {
+        const config = this.details.config as OverlayConfig;
+        const pos = config.positionStrategy;
+        if (pos instanceof FlexibleConnectedPositionStrategy) {
+            setTimeout(() => {
+                if ((pos as any)._lastPosition) {
+                    this.position_subject.next({
+                        x: (pos as any)._lastPosition.originX,
+                        y: (pos as any)._lastPosition.originY
+                    });
+                }
+            }, 10);
+        }
     }
 }

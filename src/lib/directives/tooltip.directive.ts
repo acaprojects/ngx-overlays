@@ -119,7 +119,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         }
         if (changes.show) {
             if (this.show && this.content) {
-                setTimeout(() => this.open(), 50);
+                setTimeout(() => this.open(), 10);
             } else {
                 this.closeTooltip(changes.show.previousValue);
             }
@@ -256,5 +256,6 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         } else if (!this.show && previous) {
             this.service.close(this.id);
         }
+        this.clearListeners();
     }
 }
