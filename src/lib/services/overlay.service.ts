@@ -40,7 +40,8 @@ export class OverlayService {
                     .global()
                     .centerHorizontally()
                     .centerVertically(),
-                scrollStrategy: this.overlay.scrollStrategies.noop()
+                scrollStrategy: this.overlay.scrollStrategies.noop(),
+                disposeOnNavigation: true
             })
         );
         // Register default modal overlay config
@@ -56,7 +57,8 @@ export class OverlayService {
                     .global()
                     .centerHorizontally()
                     .centerVertically(),
-                scrollStrategy: this.overlay.scrollStrategies.block()
+                scrollStrategy: this.overlay.scrollStrategies.block(),
+                disposeOnNavigation: true
             })
         );
         this.loadNotificationsOutlet();

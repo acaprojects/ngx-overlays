@@ -73,11 +73,14 @@ export class OverlayItem<T = any> {
 
     /**
      * Update the overlay item metadata
+     * @param data New overlay metadata
+     * @param update Whether to update the overlay position. Defaults to true
      */
-    public set(data: T) {
-        this._overlay.updatePosition();
+    public set(data: T, update: boolean = true) {
         this._data = data;
-        this.updatePosition();
+        if (update){
+            this.updatePosition();
+        }
     }
 
     /** Overlay item metadata  */
@@ -156,6 +159,7 @@ export class OverlayItem<T = any> {
      */
     private updatePosition() {
         const config = this.details.config as OverlayConfig;
+        this._overlay.updatePosition();
         const pos = config.positionStrategy;
         if (pos instanceof FlexibleConnectedPositionStrategy) {
             setTimeout(() => {
@@ -165,7 +169,7 @@ export class OverlayItem<T = any> {
                         y: (pos as any)._lastPosition.originY
                     });
                 }
-            }, 10);
+            }, 1);
         }
     }
 }
