@@ -1,0 +1,31 @@
+import { NgModule } from '@angular/core';
+
+import { EventFeedbackComponent } from './components/event-feedback/event-feedback.component';
+import { TappedDirective } from './directives/tapped.directive';
+import { version } from './settings';
+
+import * as dayjs_api from 'dayjs';
+const dayjs = dayjs_api;
+
+@NgModule({
+    declarations: [EventFeedbackComponent, TappedDirective],
+    imports: [],
+    exports: [EventFeedbackComponent, TappedDirective]
+})
+export class LibraryModule {
+    public static version = 'local-dev';
+    private static init = false;
+    readonly build = dayjs();
+
+    constructor() {
+        if (!LibraryModule.init) {
+            const now = dayjs();
+            LibraryModule.init = true;
+            const build = now.isSame(this.build, 'd') ? `Today at ${this.build.format('h:mmA')}` : this.build.format('D MMM YYYY, h:mmA');
+            version(LibraryModule.version, build);
+        }
+    }
+}
+
+export { LibraryModule as ACA_CUSTOM_EVENTS_MODULE };
+export { LibraryModule as ACustomEventsModule };
