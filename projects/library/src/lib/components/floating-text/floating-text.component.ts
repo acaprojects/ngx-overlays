@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { OverlayItem } from '../../classes/overlay-item.class';
-import { OverlayService } from '../../services/overlay.service';
+import { AOverlayService } from '../../services/overlay.service';
 
 @Component({
     selector: 'a-floating-text',
@@ -14,7 +14,7 @@ export class FloatingTextComponent implements OnInit {
     /** Last pointer position */
     public center: { x: number; y: number };
 
-    constructor(private item: OverlayItem, private service: OverlayService) {}
+    constructor(private item: OverlayItem, private service: AOverlayService) {}
 
     public ngOnInit(): void {
         setTimeout(() => {

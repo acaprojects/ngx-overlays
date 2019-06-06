@@ -1,5 +1,5 @@
 
-import { Component, OnInit, TemplateRef, Type, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, TemplateRef, Type, ViewEncapsulation, Inject, forwardRef, Injector } from '@angular/core';
 
 import { OverlayItem } from '../../classes/overlay-item.class';
 import { IPoint, OverlayContent } from '../../interfaces/overlay.interfaces';
@@ -21,12 +21,16 @@ export class OverlayOutletComponent implements OnInit {
     public context;
     /** Offset position for the overlay */
     public offset: IPoint;
+    /** Overlay item associated with the outlet component */
+    private _overlay: OverlayItem;
 
-    constructor(private overlay: OverlayItem) { }
+    constructor(private injector: Injector) {
+        this._overlay = injector.get(OverlayItem);
+    }
 
     public ngOnInit() {
         setTimeout(() => {
-            this.offset = this.overlay.details.offset;
+            this.offset = this._overlay.details.offset;
             this.setMethod();
         }, 1);
     }
@@ -34,20 +38,20 @@ export class OverlayOutletComponent implements OnInit {
     /** Set injection method based of the content passed */
     public setMethod() {
         this.method = 'component';
-        this.content = this.overlay.content;
-        this.klass = this.overlay.details.klass || 'default';
+        this.content = this._overlay.content;
+        this.klass = this._overlay.details.klass || 'default';
 
         if (typeof this.content === 'string') {
             this.method = 'text';
         } else if (this.content instanceof TemplateRef) {
             this.method = 'template';
             this.context = {
-                ...(this.overlay.details.data || {}),
-                event: this.overlay.post.bind(this.overlay),
-                close: this.overlay.close.bind(this.overlay)
+                ...(this._overlay.details.data || {}),
+                event: this._overlay.post.bind(this._overlay),
+                close: this._overlay.close.bind(this._overlay)
             };
             Object.defineProperty(this.context, 'position', {
-                get: () => this.overlay.position
+                get: () => this._overlay.position
             });
         }
     }

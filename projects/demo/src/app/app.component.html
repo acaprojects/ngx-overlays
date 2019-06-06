@@ -1,0 +1,36 @@
+
+    <div class="app" a-floating-text text="test text" [emit]="model.emit">
+        <div class="test" (click)="model.emit = !model.emit">
+            <button (click)="model.show = !model.show" a-tooltip [content]="template" [(show)]="model.show">
+                Tooltip test
+            </button>
+            <button (click)="model.show2 = !model.show2" a-tooltip [content]="template2" [(show)]="model.show2">
+                Tooltip Wrapper test
+            </button>
+            <button (click)="model.show_modal = !model.show_modal" a-modal [content]="template" [(show)]="model.show_modal">
+                Modal test
+            </button>
+            <button (click)="model.show3 = !model.show3" a-tooltip [content]="template" [(show)]="model.show3" [hover]="true">
+                Hover Tooltip test
+            </button>
+            <button (click)="notify()">Notify test</button>
+            <button a-context-item [content]="list">Context Item Test</button>
+        </div>
+        <ng-template #template let-pos="position">
+            <div class="box">Test {{ pos?.y }}</div>
+        </ng-template>
+        <ng-template #template2 let-pos="position">
+            <a-tooltip-wrapper [offsetX]="pos?.x" [offsetY]="pos?.y">
+                Test {{ pos?.y }} {{ pos?.x }}
+            </a-tooltip-wrapper>
+        </ng-template>
+        <ng-template #list let-event="event">
+            <div class="list" (click)="event('reopen')">
+                <div class="item">Item 1</div>
+                <div class="item">Item 2</div>
+                <div class="item">Item 3</div>
+                <div class="item">Item 4</div>
+                <div class="item">Item 5</div>
+            </div>
+        </ng-template>
+    </div>

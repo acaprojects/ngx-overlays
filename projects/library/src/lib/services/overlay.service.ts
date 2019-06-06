@@ -13,7 +13,7 @@ import { IOverlayConfig, OverlayContent } from '../interfaces/overlay.interfaces
 @Injectable({
     providedIn: 'root'
 })
-export class OverlayService {
+export class AOverlayService {
     /** Store for Overlays */
     private _refs: { [name: string]: OverlayItem<any> } = {};
     /** Store for Overlay Config presets */

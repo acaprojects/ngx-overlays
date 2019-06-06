@@ -12,9 +12,9 @@ import {
 } from '@angular/core';
 import { OverlayConfig, Overlay, PositionStrategy, ConnectionPositionPair, ScrollStrategy } from '@angular/cdk/overlay';
 
-import { OverlayService } from '../services/overlay.service';
+import { AOverlayService } from '../services/overlay.service';
 import { IOverlayEvent } from '../classes/overlay-item.class';
-import { LIBRARY_SETTINGS } from '../settings';
+import { log } from '../settings';
 import { OverlayContent } from '../interfaces/overlay.interfaces';
 
 @Directive({
@@ -81,7 +81,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
 
     constructor(
         private el: ElementRef,
-        private service: OverlayService,
+        private service: AOverlayService,
         private overlay: Overlay,
         private renderer: Renderer2
     ) {}
@@ -232,7 +232,6 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             this.show = true;
             this.showChange.emit(this.show);
             this._leave_listener = this.renderer.listen(this.el.nativeElement, 'mouseleave', _ => {
-                console.log('Close:', this.show);
                 this.show = false;
                 this.showChange.emit(this.show);
                 this.closeTooltip(this.show);
@@ -247,7 +246,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      */
     private closeTooltip(previous: boolean) {
         if (!this.content && this.el) {
-            LIBRARY_SETTINGS.log(
+            log(
                 'Tooltip',
                 'No content for tooltip attached to element',
                 this.el.nativeElement,

@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ACustomEventsModule } from 'projects/library/src/public-api';
+import { AOverlayModule } from 'projects/library/src/public-api';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import { ACustomEventsModule } from 'projects/library/src/public-api';
   ],
   imports: [
     BrowserModule,
-    ACustomEventsModule,
+    AOverlayModule,
     BrowserAnimationsModule,
   ],
   providers: [],

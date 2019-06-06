@@ -8,7 +8,7 @@ import {
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 
-import { OverlayService } from '../services/overlay.service';
+import { AOverlayService } from '../services/overlay.service';
 import { PortalInjector } from './portal-injector.class';
 import { OverlayOutletComponent } from '../components/overlay-outlet/overlay-outlet.component';
 import { IOverlayConfig } from '../interfaces/overlay.interfaces';
@@ -40,7 +40,7 @@ export class OverlayItem<T = any> {
 
     constructor(
         private id: string,
-        private service: OverlayService,
+        private service: AOverlayService,
         private injector: Injector,
         private overlay: Overlay,
         readonly details: IOverlayConfig<T>
@@ -79,7 +79,7 @@ export class OverlayItem<T = any> {
     public set(data: T, update: boolean = true) {
         this._data = data;
         if (update){
-            this.updatePosition();
+            setTimeout(() => this.updatePosition(), 100);
         }
     }
 

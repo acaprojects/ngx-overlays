@@ -15,7 +15,7 @@ html, body, .app {
 body {
     min-height: 100%;
     overflow: hidden;
-    background-color: #37474F;
+    background-color: #eee;
     font-size: $desktop-font-size;
     @include respond-to(mobile) {
         font-size: $tablet-font-size;
@@ -87,8 +87,8 @@ body {
     justify-content: center;
     flex-direction: column;
     margin: 1em auto;
-    width: 24em;
-    min-height: 10em;
+    width: 20em;
+    min-height: 250vh;
     padding: 1em;
     background-color: #fff;
     border-radius: 4px;
@@ -105,31 +105,29 @@ button {
     color: #fff;
     margin: .25em;
     border: none;
-    outline: none;
-    transition: background-color 200ms, box-shadow 200ms;
+}
 
-    &:hover {
-        background-color: #1E88E5;
-        box-shadow: 0 1px 3px 0 rgba(#000, .2), 0 1px 1px 0 rgba(#000, .14), 0 2px 1px -1px rgba(#000, .12);
+.list {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(#000, .2), 0 1px 1px 0 rgba(#000, .14), 0 2px 1px -1px rgba(#000, .12);
+    width: 10em;
+    overflow: auto;
+
+    .item {
+        display: flex;
+        align-items: center;
+        padding: .5em;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+        transition: background-color 200ms;
+
+        &:last-child {
+            border: none;
+        }
+
+        &:hover {
+            background-color: rgba(#000, .1);
+        }
     }
 }
-
-dropdown,
-custom-dropdown {
-    margin: .25em;
-}
-
-cdk-virtual-scroll-viewport {
-    height: 100%;
-    width: 100%;
-}
-
-.square {
-    height: 1em;
-    width: 1em;
-    margin: .5em;
-    border-radius: 4px;
-    border: 2px solid #ccc;
-}
-
-

@@ -1,6 +1,6 @@
 import { Directive, Input, Renderer2, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 
-import { OverlayService } from '../services/overlay.service';
+import { AOverlayService } from '../services/overlay.service';
 import { IOverlayEvent } from '../classes/overlay-item.class';
 import { OverlayContent, IPoint } from '../interfaces/overlay.interfaces';
 
@@ -26,7 +26,7 @@ export class ContextItemDirective implements AfterViewInit {
     /** Callback for unsubscribing to DOM events for closing the context item */
     private close_listeners: { mouse: () => void, touch: () => void };
 
-    constructor(private service: OverlayService, private element: ElementRef, private renderer: Renderer2) {}
+    constructor(private service: AOverlayService, private element: ElementRef, private renderer: Renderer2) {}
 
     public ngAfterViewInit(): void {
         if (this.event_name && this.element) {
@@ -65,7 +65,6 @@ export class ContextItemDirective implements AfterViewInit {
             data: {}
         });
         this.service.open(this.id, {}, (e: IOverlayEvent<any>) => {
-            console.log('Event:', e);
             if (e.type === 'reopen' && this.close_timer) {
                 clearTimeout(this.close_timer);
             } else {

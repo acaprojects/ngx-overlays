@@ -1,6 +1,6 @@
 import { Directive, Input, SimpleChanges, Renderer2 } from '@angular/core';
 
-import { OverlayService } from '../services/overlay.service';
+import { AOverlayService } from '../services/overlay.service';
 import { FloatingTextComponent } from '../components/floating-text/floating-text.component';
 
 @Directive({
@@ -21,7 +21,7 @@ export class FloatingTextDirective {
     /** Last recorded pointer position */
     private center: { x: number; y: number };
 
-    constructor(private service: OverlayService, private renderer: Renderer2) {}
+    constructor(private service: AOverlayService, private renderer: Renderer2) {}
 
     public ngOnInit(): void {
         this.listener_move = this.renderer.listen('window', 'mousemove', e => this.updatePosition(e));

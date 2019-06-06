@@ -2,7 +2,7 @@
 import { Directive, Input, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
 import { OverlayConfig } from '@angular/cdk/overlay';
 
-import { OverlayService } from '../services/overlay.service';
+import { AOverlayService } from '../services/overlay.service';
 import { IOverlayEvent } from '../classes/overlay-item.class';
 import { OverlayContent } from '../interfaces/overlay.interfaces';
 
@@ -19,7 +19,7 @@ export class ModalDirective<T = any> implements OnChanges {
     @Output() public event = new EventEmitter<IOverlayEvent<T>>();
     @Output() public close = new EventEmitter<IOverlayEvent<T>>();
 
-    constructor(private service: OverlayService) {}
+    constructor(private service: AOverlayService) {}
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.show) {
