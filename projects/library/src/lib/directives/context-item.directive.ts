@@ -4,6 +4,12 @@ import { AOverlayService } from '../services/overlay.service';
 import { IOverlayEvent } from '../classes/overlay-item.class';
 import { OverlayContent, IPoint } from '../interfaces/overlay.interfaces';
 
+declare global {
+    interface Window {
+        TouchEvent: any;
+    }
+}
+
 @Directive({
     selector: '[a-context-item]'
 })
@@ -43,8 +49,8 @@ export class ContextItemDirective implements AfterViewInit {
     public handleContextEvent(event: MouseEvent | TouchEvent) {
         event.preventDefault();
         const position: IPoint = {
-            x: event instanceof TouchEvent ? event.touches[0].clientX : event.clientX,
-            y: event instanceof TouchEvent ? event.touches[0].clientY : event.clientY
+            x: window.TouchEvent && event instanceof TouchEvent ? event.touches[0].clientX : (event as MouseEvent).clientX,
+            y: window.TouchEvent && event instanceof TouchEvent ? event.touches[0].clientY : (event as MouseEvent).clientY
         };
         this.createContextItem(position);
     }

@@ -43,6 +43,12 @@ export interface INotificationContext {
 
 export type NotifyCallback = (e?: IOverlayEvent<INotification>) => void;
 
+declare global {
+    interface Window {
+        TouchEvent: any;
+    }
+}
+
 @Component({
     selector: 'notification-outlet',
     templateUrl: './notification-outlet.component.html',
@@ -162,7 +168,7 @@ export class NotificationOutletComponent implements OnInit, OnDestroy {
      * @param event Mouse/Touch event
      */
     public pull(item, event: MouseEvent | TouchEvent): void {
-        const offset = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+        const offset = window.TouchEvent && event instanceof TouchEvent ? event.touches[0].clientX : (event as MouseEvent).clientX;
         item.offset = Math.max(0, offset - this.offset);
     }
 

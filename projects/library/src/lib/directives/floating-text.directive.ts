@@ -3,6 +3,12 @@ import { Directive, Input, SimpleChanges, Renderer2 } from '@angular/core';
 import { AOverlayService } from '../services/overlay.service';
 import { FloatingTextComponent } from '../components/floating-text/floating-text.component';
 
+declare global {
+    interface Window {
+        TouchEvent: any;
+    }
+}
+
 @Directive({
     selector: '[a-floating-text]'
 })
@@ -57,8 +63,8 @@ export class FloatingTextDirective {
      */
     private updatePosition(event: MouseEvent | TouchEvent) {
         this.center = {
-            x: event instanceof MouseEvent ? event.clientX : event.touches[0].clientX,
-            y: event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
+            x: window.TouchEvent && event instanceof TouchEvent ? event.touches[0].clientX : (event as MouseEvent).clientX,
+            y: window.TouchEvent && event instanceof TouchEvent ? event.touches[0].clientY : (event as MouseEvent).clientY
         };
     }
 }
