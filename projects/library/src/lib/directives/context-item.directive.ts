@@ -68,6 +68,7 @@ export class ContextItemDirective implements AfterViewInit {
             content: this.content,
             klass: this.klass,
             offset: point,
+            config: 'no-scroll',
             data: {}
         });
         this.service.open(this.id, {}, (e: IOverlayEvent<any>) => {

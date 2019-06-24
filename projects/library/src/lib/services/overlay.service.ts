@@ -44,6 +44,23 @@ export class AOverlayService {
                 disposeOnNavigation: true
             })
         );
+        // Register no scroll overlay config
+        this.registerPreset(
+            'no-scroll',
+            new OverlayConfig({
+                minWidth: 2,
+                minHeight: 2,
+                hasBackdrop: true,
+                backdropClass: 'overlay-backdrop',
+                positionStrategy: this.overlay
+                    .position()
+                    .global()
+                    .centerHorizontally()
+                    .centerVertically(),
+                scrollStrategy: this.overlay.scrollStrategies.block(),
+                disposeOnNavigation: true
+            })
+        );
         // Register default modal overlay config
         this.registerPreset(
             'modal',

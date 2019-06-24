@@ -4,7 +4,7 @@
             <button (click)="model.show = !model.show" a-tooltip [content]="template" [(show)]="model.show">
                 Tooltip test
             </button>
-            <button (click)="model.show2 = !model.show2" a-tooltip [content]="template2" [(show)]="model.show2">
+            <button (click)="model.show2 = !model.show2" a-tooltip [backdrop]="true" [content]="template2" [(show)]="model.show2">
                 Tooltip Wrapper test
             </button>
             <button (click)="model.show_modal = !model.show_modal" a-modal [content]="template" [(show)]="model.show_modal">

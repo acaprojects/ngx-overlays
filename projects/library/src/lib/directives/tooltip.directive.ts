@@ -37,6 +37,8 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     @Input() public reposition = true;
     /** Whether hovering over the parent element shows the tooltip */
     @Input() public hover: boolean;
+    /** Whether the tooltip has a backdrop */
+    @Input() public backdrop: boolean;
     /** Change emitter for show */
     @Output() public showChange = new EventEmitter<boolean>();
     /** Event emitter for overlay component */
@@ -159,7 +161,7 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             .position()
             .flexibleConnectedTo(origin)
             .withPositions(positions)
-            .withPush(false);
+            .withPush(true);
         return positionStrategy;
     }
 
@@ -186,6 +188,8 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
             new OverlayConfig({
                 minWidth: 2,
                 minHeight: 2,
+                hasBackdrop: this.backdrop,
+                backdropClass: 'tooltip-backdrop',
                 positionStrategy: this.getOverlayPosition(this.el.nativeElement),
                 scrollStrategy: this.strategy
             })

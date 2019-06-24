@@ -5,6 +5,7 @@ import { OverlayConfig } from "@angular/cdk/overlay";
 /** Valid content types Template, Component or HTML string */
 export type OverlayContent = TemplateRef<any> | Type<any> | string;
 
+/** Configuration parameters for overlay components */
 export interface IOverlayConfig<T = any> {
     /** CSS class to add to the root element on the overlay */
     klass?: string;
