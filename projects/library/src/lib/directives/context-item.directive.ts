@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer2, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Directive, Input, Renderer2, ElementRef, AfterViewInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import { AOverlayService } from '../services/overlay.service';
 import { IOverlayEvent } from '../classes/overlay-item.class';
@@ -13,7 +13,7 @@ declare global {
 @Directive({
     selector: '[a-context-item]'
 })
-export class ContextItemDirective implements AfterViewInit {
+export class ContextItemDirective implements AfterViewInit, OnDestroy {
     /** Unique identifier for the context item instance */
     @Input() public id = `context-item-${Math.floor(Math.random() * 9999999)}`;
     /** CSS class to add to the parent element of the rendered item */
@@ -27,16 +27,23 @@ export class ContextItemDirective implements AfterViewInit {
 
     /** Whether the context item is open */
     private opened: boolean;
-    /** ID of the timer for closing the context item */
-    private close_timer: number;
     /** Callback for unsubscribing to DOM events for closing the context item */
-    private close_listeners: { mouse: () => void, touch: () => void };
+    private listener: () => void;
+    /** Timer ID for opening the context item */
+    private create_timer: number;
 
-    constructor(private service: AOverlayService, private element: ElementRef, private renderer: Renderer2) {}
+    constructor(private service: AOverlayService, private element: ElementRef, private renderer: Renderer2) { }
+
+    public ngOnDestroy(): void {
+        if (this.listener) {
+            this.listener();
+            delete this.listener;
+        }
+    }
 
     public ngAfterViewInit(): void {
         if (this.event_name && this.element) {
-            this.renderer.listen(this.element.nativeElement, this.event_name, e => this.handleContextEvent(e));
+            this.listener = this.renderer.listen(this.element.nativeElement, this.event_name, e => this.handleContextEvent(e));
         } else {
             setTimeout(() => this.ngAfterViewInit(), 300);
         }
@@ -63,47 +70,22 @@ export class ContextItemDirective implements AfterViewInit {
         if (this.opened) {
             this.service.close(this.id);
         }
-        this.opened = true;
-        this.service.register(this.id, {
-            content: this.content,
-            klass: this.klass,
-            offset: point,
-            config: 'no-scroll',
-            data: {}
-        });
-        this.service.open(this.id, {}, (e: IOverlayEvent<any>) => {
-            if (e.type === 'reopen' && this.close_timer) {
-                clearTimeout(this.close_timer);
-            } else {
-                this.event.emit(e);
-            }
-        }, () => this.handleClose());
-        setTimeout(() => {
-            this.close_listeners = {
-                mouse: this.renderer.listen('window', 'mouseup', () => this.close()),
-                touch: this.renderer.listen('window', 'touchend', () => this.close()),
-            };
-        }, 300);
-    }
-
-    /**
-     * Close context item
-     */
-    private close() {
-        this.close_timer = <any>setTimeout(() => {
-            this.service.close(this.id);
-        }, 200);
-    }
-
-    /**
-     * Cleanup after context item has closed
-     */
-    private handleClose() {
-        this.opened = false;
-        if (this.close_listeners) {
-            this.close_listeners.mouse();
-            this.close_listeners.touch();
-            delete this.close_listeners;
+        if (this.create_timer) {
+            clearTimeout(this.create_timer)
         }
+        this.create_timer = <any>setTimeout(() => {
+            this.opened = true;
+            this.service.register(this.id, {
+                content: this.content,
+                klass: this.klass,
+                offset: point,
+                config: 'no-scroll',
+                data: {}
+            });
+            this.create_timer = null;
+            this.service.open(this.id, {}, (e: IOverlayEvent<any>) => {
+                this.event.emit(e);
+            }, () => this.opened = false);
+        }, 5);
     }
 }
