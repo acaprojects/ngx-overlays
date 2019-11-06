@@ -133,6 +133,13 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
      */
     public open() {
         this.listenForScroll();
+        if (this.hover) {
+            this._leave_listener = this.renderer.listen(this.el.nativeElement, 'mouseleave', _ => {
+                this.show = false;
+                this.showChange.emit(this.show);
+                this.closeTooltip(this.show);
+            })
+        }
         this.service.open(
             this.id,
             {
@@ -235,11 +242,6 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         this._hover_listener = this.renderer.listen(this.el.nativeElement, 'mouseenter', _ => {
             this.show = true;
             this.showChange.emit(this.show);
-            this._leave_listener = this.renderer.listen(this.el.nativeElement, 'mouseleave', _ => {
-                this.show = false;
-                this.showChange.emit(this.show);
-                this.closeTooltip(this.show);
-            })
             this.open();
         });
     }
