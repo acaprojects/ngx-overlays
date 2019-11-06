@@ -13,6 +13,9 @@
             <button (click)="model.show3 = !model.show3" a-tooltip [content]="template" [(show)]="model.show3" [hover]="true">
                 Hover Tooltip test
             </button>
+            <button (click)="model.show4 = !model.show4" a-tooltip [content]="template" position="right" [(show)]="model.show4" [hover]="true">
+                Hover Right Tooltip test
+            </button>
             <button (click)="notify()">Notify test</button>
             <button a-context-item [content]="list">Context Item Test</button>
         </div>

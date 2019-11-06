@@ -170,8 +170,8 @@ export class TooltipDirective<T = any> implements OnInit, OnChanges, OnDestroy {
         switch (this.position) {
             case 'top':
                 return [pos.top, pos.bottom, pos.left, pos.right];
-            case 'left':
-                return [pos.left, pos.right, pos.bottom, pos.top];
+            case 'right':
+                return [pos.right, pos.left, pos.bottom, pos.top];
             case 'left':
                 return [pos.left, pos.right, pos.bottom, pos.top];
             default:
