@@ -2,13 +2,15 @@ import { Injectable, Injector } from '@angular/core';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Subject } from 'rxjs';
 
-import { OverlayItem } from '../classes/overlay-item.class';
+import { OverlayItem, IOverlayEvent } from '../classes/overlay-item.class';
 import {
     NotificationOutletComponent,
     INotification,
     NotifyCallback
 } from '../components/notification-outlet/notification-outlet.component';
 import { IOverlayConfig, OverlayContent } from '../interfaces/overlay.interfaces';
+
+type OverlayEventFn<T> = (e: IOverlayEvent<T>) => void;
 
 @Injectable({
     providedIn: 'root'
@@ -101,7 +103,7 @@ export class AOverlayService {
      * @param next Overlay event callback
      * @param on_close Overlay on close callback
      */
-    public open<T = any>(name: string, details: IOverlayConfig<T>, next?: (e) => void, on_close?: (e) => void) {
+    public open<T = any>(name: string, details: IOverlayConfig<T>, next?: OverlayEventFn<T>, on_close?: OverlayEventFn<T>) {
         if (!details.config) {
             details.config = this.preset();
         } else if (!(details.config instanceof OverlayConfig)) {
