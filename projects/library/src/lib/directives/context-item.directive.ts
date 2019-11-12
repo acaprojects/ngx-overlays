@@ -18,6 +18,8 @@ export class ContextItemDirective implements AfterViewInit, OnDestroy {
     @Input() public id = `context-item-${Math.floor(Math.random() * 9999999)}`;
     /** CSS class to add to the parent element of the rendered item */
     @Input() public klass = 'default';
+    /** Data to send to the context item */
+    @Input() public data = {};
     /** Contents of the rendered item. Can be a TemplateRef, Type or a HTML string */
     @Input() public content: OverlayContent;
     /** Name of an event to list to on the parent element to listen for */
@@ -80,7 +82,7 @@ export class ContextItemDirective implements AfterViewInit, OnDestroy {
                 klass: this.klass,
                 offset: point,
                 config: 'no-scroll',
-                data: {}
+                data: this.data
             });
             this.create_timer = null;
             this.service.open(this.id, {}, (e: IOverlayEvent<any>) => {
